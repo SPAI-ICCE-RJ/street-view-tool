@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+        <meta http-equiv="Content-Type" content="text/html charset=UTF-8"/>
+        <script type="text/javascript">
+            function passvalues() {
+                var key = "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,visualization&callback=initMap&key=" + document.getElementById("txt").value;
+                localStorage.setItem("textvalue", key)
+                return false;
+            }
+        </script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://html5-templates.com/" />
+    <title>SPAI-ICCE</title>
+    <meta name="description" content="Simplified Bootstrap template with sticky menu">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sticky-menu.css" rel="stylesheet">
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Bem-vindo</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">Google Street View</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#whatwedo">Razão cruzada</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contato</a>
+                    </li>
+                </ul>
+            </div>	<!-- .navbar-collapse -->
+        </div>		<!-- .container -->
+    </nav>
+    <!-- Welcome   -->
+    <section id="welcome" class="welcome-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Bem-vindo</h1>                
+                    <p>Esta é uma página para divulgação, eventualmente trará mais instruções. Entre em contato se quiser ajuda ou colaborar. </p>
+                    <p>A ferramenta do Google Street View não foi projetada para celulares. Atualize usando Ctrl+F5 para garantir a última versão.</p>
+                    <p>Abrindo a ferramenta de desenvolvimento do seu navegador você será capaz de visualizar, copiar o código e trabalhar nele.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Google Street View</h1>
+                    <p>Insira sua <a href="https://developers.google.com/maps/premium/apikey/street-view-static-apikey?hl=pt-br" target="_blank" rel="nofollow">chave</a> do Google Maps abaixo e escolha o modelo:</p>
+         <input type="text" id="txt">
+        <form action="Street.html" method="get">
+            <input type="submit" value="Entrar" onclick="passvalues();"/>
+        </form>
+        <!--form action="ModeloII.html" method="get">
+            <input type="submit" value="ModeloII" onclick="passvalues();"/>
+                </form-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we do Section -->
+    <section id="whatwedo" class="whatwedo-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Razão cruzada</h1>
+                   <p> <a href="https://docs.google.com/spreadsheets/d/1n0Jfrt46ySZ7giKlwUJrvp73FgYi-JruADIqCohfmsc/edit?usp=sharing" target="_blank" rel="nofollow">Planilha</a>. </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Contato</h1>
+                </div>
+                   <p> E-mail: <a href="spai.icce@gmail.com" target="_blank" rel="nofollow">spai.icce@gmail.com</a>. </p>
+            </div>
+        </div>
+    </section>
+	
+	<a id="back2Top" title="Back to top" href="#">&#10148;</a>
+	
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/sticky-menu.js"></script>
+
+</body>
+
+</html>

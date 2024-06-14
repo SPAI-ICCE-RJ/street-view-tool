@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script>
+            x = localStorage.getItem("textvalue")
+            document.write("<script id='callGoogle' src='" + x + "'><\/scr" + "ipt>");
+        </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+        <script type="text/javascript" src="prince.js"></script>
+        <script type="text/javascript" src="solver.js"></script>
+        <script type="text/javascript" src="markers.js"></script>
+        <script type="text/javascript" src="markerz.js"></script>
+
+    </head>
+    <body onload="initMap();">
+        <input id="pac-input" class="controls" type="text" placeholder="SearchBox"></input>
+        <input id="floating-Date" type="textbox" name="Date"></input>
+        <div id="floating-Down">
+            <input type="submit" value="Voltar" onclick="toggleDown();"></input>
+        </div>
+        <div id="floating-Up">
+            <input type="submit" value="Avançar data" onclick="toggleUp();"></input>
+        </div>
+        <div id="floating-point">
+            <input type="button" value="Calibrar trena 1" onclick="addpoint([]);"></input>
+        </div>
+        <div id="floating-pair">
+            <input type="button" value="Trena 1" onclick="addpair([]);"></input>
+        </div>
+        <div id="floating-twoScreens1">
+            <input type="button" value="Uma/duas telas" onclick="duplicate(1);"></input>
+        </div>        
+        
+        <div id="floating-ruler2">
+            <input type="button" value="Trena 2" onclick="adcElemento();"></input>
+        </div>
+
+        <!--div id="floating-twoScreens2">
+            <input type="button" value="Uma/duas telas" onclick="duplicate(2);"></input>
+        </div>
+
+        <div id="floating-pairC">
+            <input type="button" value="Trena 1" onclick="addpairC([]);"></input>
+        </div>
+        
+        <div id="floating-rulerC">
+            <input type="button" value="Trena 2" onclick="adcElementoC();"></input>
+        </div>
+        
+        <input id="input-pair"/!-->
+        <!--input id="input-pair-size"/>
+        
+          <input type="file" id="files" class="controls" name="files[]"/>
+        <div id="floating-Load">
+            <input type="button" value="Carregar" onclick="LoadFile();"></input>
+        </div>
+        
+
+        <!--input id="input-match"/-->
+        <div id="rMap"></div>
+        <div id="pMap"></div>
+    </body>
+</html>

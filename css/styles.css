@@ -1,0 +1,325 @@
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#rMap {
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
+#pMap {
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
+/* Optional: Makes the sample page esfill the window. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#files {
+    position: absolute;
+    left: 230px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-bottom: 5px;
+}
+
+#floating-Load {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+}
+
+#floating-download {
+    position: absolute;
+    left: 30px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+}
+
+#floating-Date {
+    position: absolute;
+    top: 60px;
+    right: 190px;
+    width: 120px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+}
+
+#floating-Date>input {
+    width: 110px;
+}
+
+#floating-Up {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    margin-left: 0px;
+}
+
+#floating-Down {
+    position: absolute;
+    top: 60px;
+    left: 100px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    margin-left: 0px;
+}
+
+#floating-point {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#input-point {
+    position: absolute;
+    width: 50px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 8px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: 0px;
+}
+
+#floating-pair {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#floating-pairC {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#input-pair {
+    position: absolute;
+    width: 50px;
+    top: 143px;
+    right: 65px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+}
+
+#input-pair-size {
+    position: absolute;
+    width: 50px;
+    top: 143px;
+    right: 10px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+}
+
+#floating-twoScreens1 {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#floating-twoScreens2 {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#floating-ruler2 {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
+
+#input-match {
+    position: absolute;
+    width: 50px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 8px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+}
+
+#description {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+#infowindow-content .title {
+    font-weight: bold;
+}
+
+#infowindow-content {
+    display: none;
+}
+
+#rMap #infowindow-content {
+    display: inline;
+}
+
+.pac-card {
+    margin: 10px 10px 0 0;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    font-family: Roboto;
+}
+
+#pac-container {
+    padding-bottom: 12px;
+    margin-right: 12px;
+}
+
+.pac-controls {
+    display: inline-block;
+    padding: 5px 11px;
+}
+
+.pac-controls label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-right: 0px;
+    padding: 0 0px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+}
+
+#title {
+    color: #fff;
+    background-color: #4d90fe;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+#target {
+    width: 345px;
+}
+
+
+
+
+#floating-rulerC {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 1%;
+    padding-left: -100px;
+    padding-right: 5px;
+}
