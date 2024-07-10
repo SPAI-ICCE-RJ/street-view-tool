@@ -63,7 +63,7 @@ function initMap() {
         center: astorPlace,
         zoom: 19,
         mapTypeId: "hybrid",
-        streetViewControl: true,
+        streetViewControl: false,
         mapTypeControl: true,
         fullscreenControl: false,
         zoomControl: false,
