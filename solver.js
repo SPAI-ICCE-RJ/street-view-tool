@@ -18,11 +18,7 @@ function solver(Calibration) {
     var initial = [3, 0];
     var minimiser = numeric.uncmin(objective, initial);
 
-    var TtoZ = new Array(24.7210645292706,3.85430803919157,2.26831429504208,1.78799800829126,1.56588077031271,1.43977787235914,1.35902263974776,
-                         1.30306304129452,1.26207205498723,1.23078550392891,1.20613845263661,1.18622896675453,1.16981585969576,1.15605543082363,
-                         1.14435451785446,1.13428412521363,1.12552641540871,1.11784096028684,1.11104256561747,1.10498629506257,1.09955710991186,
-                         1.09466254780588,1.09022745000777,1.08619009894154,1.08249934511727,1.07911244012803,1.07599338140668,1.07311163318891,
-                         1.07044112763907,1.06795947711349);
+    var TtoZ = new Array(24.7210645292706,3.85430803919157,2.26831429504208,1.78799800829126,1.56588077031271,1.43977787235914,1.35902263974776,1.30306304129452,1.26207205498723,1.23078550392891,1.20613845263661,1.18622896675453,1.16981585969576,1.15605543082363,1.14435451785446,1.13428412521363,1.12552641540871,1.11784096028684,1.11104256561747,1.10498629506257,1.09955710991186,1.09466254780588,1.09022745000777,1.08619009894154,1.08249934511727,1.07911244012803,1.07599338140668,1.07311163318891,1.07044112763907,1.06795947711349);
 
     minimiser.solution.push(TtoZ[Calibration.Pt[0].length - 1] * Math.sqrt(minimiser.f / (Calibration.Pt[0].length - 1)))
     return minimiser.solution
@@ -34,7 +30,6 @@ function solverH(child) {
 
         return (Math.abs(Math.tan((90 - hd) * Math.PI / 180) * (params[0] - ps[0]) + ps[1] - params[1])) * (Math.abs(Math.tan((90 - hd) * Math.PI / 180) * (params[0] - ps[0]) + ps[1] - params[1])) / (Math.tan((90 - hd) * Math.PI / 180) * Math.tan((90 - hd) * Math.PI / 180) + 1)
     };
-
 
     var objective1 = function(params) {
         var total = 0.0;
@@ -58,17 +53,14 @@ function solverH(child) {
 
     var initial = [0, 0];
 
-    
-        var minimiser1 = numeric.uncmin(objective1, initial)
-        var minimiser2 = numeric.uncmin(objective2, initial)
-        var minimiser = minimiser1.solution
-        minimiser.push(minimiser2.solution[0])
-        minimiser.push(minimiser2.solution[1])
+    var minimiser1 = numeric.uncmin(objective1, initial)
+    var minimiser2 = numeric.uncmin(objective2, initial)
+    var minimiser = minimiser1.solution
+    minimiser.push(minimiser2.solution[0])
+    minimiser.push(minimiser2.solution[1])
 
-        minimiser.push(Math.sqrt(((minimiser1.f) + (minimiser2.f))) / (child.length / 2 - 1))
-  
-
-
+    minimiser.push(Math.sqrt(((minimiser1.f) + (minimiser2.f))) / (child.length / 2 - 1))
+    console.log(minimiser)
     var tot = 0.0;
     var tot2 = 0.0;
     var totd = 0.0;
@@ -86,12 +78,8 @@ function solverH(child) {
         totd += resultThisMd
     }
 
-    console.log(child)
-    var TtoZ = new Array(24.7210645292706,3.85430803919157,2.26831429504208,1.78799800829126,1.56588077031271,1.43977787235914,
-                         1.35902263974776,1.30306304129452,1.26207205498723,1.23078550392891,1.20613845263661,1.18622896675453,
-                         1.16981585969576,1.15605543082363,1.14435451785446,1.13428412521363,1.12552641540871,1.11784096028684,
-                         1.11104256561747,1.10498629506257,1.09955710991186,1.09466254780588,1.09022745000777,1.08619009894154,
-                         1.08249934511727,1.07911244012803,1.07599338140668,1.07311163318891,1.07044112763907,1.06795947711349);
+    // console.log(child)
+    var TtoZ = new Array(24.7210645292706,3.85430803919157,2.26831429504208,1.78799800829126,1.56588077031271,1.43977787235914,1.35902263974776,1.30306304129452,1.26207205498723,1.23078550392891,1.20613845263661,1.18622896675453,1.16981585969576,1.15605543082363,1.14435451785446,1.13428412521363,1.12552641540871,1.11784096028684,1.11104256561747,1.10498629506257,1.09955710991186,1.09466254780588,1.09022745000777,1.08619009894154,1.08249934511727,1.07911244012803,1.07599338140668,1.07311163318891,1.07044112763907,1.06795947711349);
     var resl = Math.abs(tot / (child.length / 2))
 
     var sigmaH1 = Math.sqrt((2 * tot2 / child.length - Math.pow(2 * tot / child.length, 2)));
@@ -100,8 +88,38 @@ function solverH(child) {
     var diag = Math.sqrt(Math.pow(resl, 2) + Math.pow(larg, 2));
     var sigmaH2 = totd;
 
-    var sol = [100 * resl, 100 * TtoZ[child.length / 2 - 2] * (sigmaH1 + sigmaH2) / Math.sqrt(child.length / 2), 100 * larg, 100 * TtoZ[child.length / 2 - 2] * (minimiser[4]) / Math.sqrt(child.length/2-1), 100 * diag]
+    var sol = [100 * resl, 100 * TtoZ[child.length / 2 - 2] * (sigmaH1 + sigmaH2) / Math.sqrt(child.length / 2), 100 * larg, 100 * TtoZ[child.length / 2 - 2] * (minimiser[4]) / Math.sqrt(child.length / 2 - 1), 100 * diag]
     sol.push(Math.sqrt(Math.pow(sol[1] * sol[0] / sol[4], 2) + Math.pow(sol[3] * sol[2] / sol[4], 2)))
+    return sol
+}
+
+
+function solverP(child1,child2) {
+
+    var funcao = function(params, hd, ps) {
+        return (Math.abs(Math.tan((90 - hd) * Math.PI / 180) * (params[0] - ps[0]) + ps[1] - params[1])) * (Math.abs(Math.tan((90 - hd) * Math.PI / 180) * (params[0] - ps[0]) + ps[1] - params[1])) / (Math.tan((90 - hd) * Math.PI / 180) * Math.tan((90 - hd) * Math.PI / 180) + 1)
+    };
+
+    var objective1 = function(params) {
+            var resultThisDatum1 = funcao(params, child1.sheading, child1.cPosition);
+             var resultThisDatum2 = funcao(params, child2.sheading, child2.cPosition);
+            var delta = resultThisDatum1+resultThisDatum2;
+        return delta;
+    };
+
+ 
+    var initial = [0, 0];
+
+    var minimiser1 = numeric.uncmin(objective1, initial)
+    var minimiser = minimiser1.solution
+    var tot = 0.0;
+    
+    var resl1 = Math.sqrt((minimiser[0] - child1.cPosition[0]) * (minimiser[0] - child1.cPosition[0]) + (minimiser[1] - child1.cPosition[1]) * (minimiser[1] - child1.cPosition[1])) * (Math.tan(child1.spitch * Math.PI / 180));      
+    var resl2= Math.sqrt((minimiser[0] - child2.cPosition[0]) * (minimiser[0] - child2.cPosition[0]) + (minimiser[1] - child2.cPosition[1]) * (minimiser[1] - child2.cPosition[1])) * (Math.tan(child2.spitch * Math.PI / 180));
+    minimiser.push(resl1)
+    minimiser.push(resl2)
+  
+    var sol = minimiser
     return sol
 }
 

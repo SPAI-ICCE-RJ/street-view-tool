@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script async src="js/opencv.js" type="text/javascript"></script>
+</head>
+<body>
+    <input type="file" id="file_input">
+
+    <script>
+        let file_input = document.getElementById('file_input');
+
+        file_input.addEventListener('change', (e) => {
+            if (!e.target.files[0]) return;
+
+            let imgSrc = URL.createObjectURL(e.target.files[0]);
+
+            // Exibir imagem original em um pop-up ajustado com suporte a markers
+            const popupOriginal = openPopupWithMarkers(imgSrc, "Imagem Original");
+
+            // Processar a imagem
+            let img = new Image();
+            img.src = imgSrc;
+            img.onload = () => {
+                let mat = cv.imread(img);
+                let grayMat = new cv.Mat();
+                cv.cvtColor(mat, grayMat, cv.COLOR_RGBA2GRAY);
+
+                // Criar um canvas para exportar a imagem processada
+                let processedCanvas = document.createElement('canvas');
+                cv.imshow(processedCanvas, grayMat);
+                let processedImageUrl = processedCanvas.toDataURL();
+
+                // Exibir imagem processada em outro pop-up ajustado com suporte a markers
+                openPopupWithMarkers(processedImageUrl, "Imagem Processada");
+
+                // Liberar memória
+                mat.delete();
+                grayMat.delete();
+            };
+        });
+
+        /**
+         * Função para abrir um pop-up e permitir adicionar marcadores em uma imagem.
+         */
+        function openPopupWithMarkers(imageSrc, title) {
+            const popup = window.open("", title, "toolbar=no, location=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600");
+
+            // Adicionar estilos ao <head>
+            const style = document.createElement('style');
+            style.textContent = `
+                body, html {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: black;
+                    overflow: hidden;
+                }
+                canvas {
+                    max-width: 100%;
+                    max-height: 100%;
+                    cursor: crosshair;
+                }
+            `;
+            popup.document.head.appendChild(style);
+
+            // Criar o canvas
+            const canvas = popup.document.createElement('canvas');
+            canvas.id = "imageCanvas";
+            popup.document.body.appendChild(canvas);
+
+            // Configurar o canvas para exibir a imagem
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = imageSrc;
+
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+            };
+
+            // Adicionar marcadores no canvas
+            canvas.addEventListener('click', (event) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                // Desenhar um marcador (círculo vermelho)
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.stroke();
+            });
+        }
+    </script>
+</body>
+</html>

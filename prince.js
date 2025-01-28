@@ -20,6 +20,8 @@ var markerPanoID = [];
 var psize = 0;
 var State = new Array(2);
 var Calibration = new Array();
+let popupOriginal
+let popupDoc  
 
 var SVO = new Object;
 
@@ -28,7 +30,7 @@ var astorPlace = {
     lng: -43.182550
 };
 
-function initMap() {
+async function initMap() {
     // Set up the map
 
     rMap = new google.maps.Map(document.getElementById('rMap'),{
@@ -59,6 +61,7 @@ function initMap() {
         }, ]
     });
     document.getElementById('rMap').style.width = '50%'
+
     pMap = new google.maps.Map(document.getElementById('pMap'),{
         center: astorPlace,
         zoom: 19,
@@ -140,6 +143,10 @@ function initMap() {
         disableDefaultUI: true,
     });
     pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-point'));
+    
+    pPanorama.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('floating-point2'));
+        pPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('file_input'));
+
 
     // pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('input-match'));
     rPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-ruler2'));
@@ -149,7 +156,7 @@ function initMap() {
     pPanorama.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('floating-pairC'));
 
     rPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens1'));
-    pPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens2'));
+    //pPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens2'));
 
     pPanorama.setVisible(true)
     pPanorama.setVisible(false)
@@ -213,7 +220,7 @@ function initMap() {
     };
     var zum1 = 0
 
-    window.addEventListener('keydown', (event)=>{
+    window.addEventListener('keydown', (event) => {
         if ((// Change or remove this condition depending on your requirements.
         event.key === 'ArrowUp' || // Move forward
         event.key === 'ArrowDown' || // Move forward
@@ -404,7 +411,7 @@ function processSVData(data, status) {
                     scale: 5,
                 },
                 lable: indice,
-                opacity: 0.3
+                opacity: 1
             });
             pcheckpoint = new google.maps.Marker({
                 position: data.location.latLng,
@@ -414,7 +421,7 @@ function processSVData(data, status) {
                     scale: 5,
                 },
                 lable: indice,
-                opacity: 0.3
+                opacity: 1
             });
             // setMapOnAll(null, pCheckPoints);
             if (Markers[rPanorama.pano]) {
@@ -508,9 +515,6 @@ function processSVData(data, status) {
 
                     rPanorama.setVisible(true);
 
-                   
-                    
-                    
                     if (Markers[pTime]) {
                         setMapOnAll(pMap, Markers[pTime].Points);
                         //setMapOnAll(pMap, Markers[pPanorama.pano].Pairs);
@@ -599,6 +603,10 @@ function duplicate(s) {
             rPanorama.setVisible(true)
             document.getElementById('pMap').style.display = 'none'
 
+            if (document.getElementById('centroR') != undefined) {
+                document.getElementById('centroR').style.left = (2 * SVO.panWidth - SVO.markerWidth) / 2 + "px"
+            }
+
         } else {
             document.getElementById('rMap').style.width = '50%'
             rPanorama.setVisible(false)
@@ -620,6 +628,10 @@ function duplicate(s) {
 
             rPanorama.setVisible(true)
             pPanorama.setVisible(true)
+            if (document.getElementById('centroR') != undefined) {
+                document.getElementById('centroR').style.left = (SVO.panWidth / 2 - SVO.markerWidth) / 2 + "px"
+            }
+
         }
     }
     if (s == 2) {
@@ -644,6 +656,9 @@ function duplicate(s) {
             pPanorama.setVisible(true)
             document.getElementById('rMap').style.display = 'none'
 
+            document.getElementById('centro').style.top = (SVO.panHeight - 18) / 2 + "px"
+            document.getElementById('centro').style.left = 2 * (SVO.panWidth - 18) / 2 + "px"
+
         } else {
             document.getElementById('pMap').style.width = '50%'
             rPanorama.setVisible(false)
@@ -665,6 +680,12 @@ function duplicate(s) {
             pPanorama.setVisible(false)
             pPanorama.setVisible(true)
             rPanorama.setVisible(true)
+
+            SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+            SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+
+            document.getElementById('centro').style.top = (SVO.panHeight - 18) / 2 + "px"
+            document.getElementById('centro').style.left = (SVO.panWidth - 18) / 2 + "px"
         }
     }
 
@@ -896,13 +917,13 @@ function distC() {
         if (Calibration[Object.values(rPanoramas[k])[1]] != undefined) {
             if (Calibration[Object.values(rPanoramas[k])[1]].cal[2] != undefined) {
 
-                den = den + Calibration[Object.values(rPanoramas[k])[1]].dist / Math.pow(Calibration[Object.values(rPanoramas[k])[1]].cal[2],2);
+                den = den + Calibration[Object.values(rPanoramas[k])[1]].dist / Math.pow(Calibration[Object.values(rPanoramas[k])[1]].cal[2], 2);
 
-                num = num + 1 / Math.pow(Calibration[Object.values(rPanoramas[k])[1]].cal[2],2);
+                num = num + 1 / Math.pow(Calibration[Object.values(rPanoramas[k])[1]].cal[2], 2);
             }
         }
     }
-    var dist=[];
+    var dist = [];
     dist[0] = den / num;
     dist[1] = Math.sqrt(1 / num);
     return dist

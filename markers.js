@@ -71,8 +71,8 @@ function addpoint(load) {
             var tit = load.index
         } else {
             var pos = {
-                lat: rPanorama.location.latLng.lat() + 2 * Math.cos(Math.PI * hd / 180) / (60 * 1852) / Math.pow(zm, Math.pow(pt,1.5)),
-                lng: rPanorama.location.latLng.lng() + 2 * Math.sin(Math.PI * hd / 180) / (60 * 1852) / Math.pow(zm, Math.pow(pt,1.5))
+                lat: rPanorama.location.latLng.lat() + 2 * Math.cos(Math.PI * hd / 180) / (60 * 1852) / Math.pow(zm, Math.pow(pt, 1.5)),
+                lng: rPanorama.location.latLng.lng() + 2 * Math.sin(Math.PI * hd / 180) / (60 * 1852) / Math.pow(zm, Math.pow(pt, 1.5))
             }
             var lab = "P" + String(psize);
             var tit = String(psize)
@@ -140,7 +140,7 @@ function addpair(load) {
         var hd = rPanorama.pov.heading;
         var zm = Math.tan(45 / Math.pow(2, rPanorama.getZoom()) * Math.PI / 180);
         var pt = Math.tan(Math.PI * (rPanorama.pov.pitch + 90) / 360);
-        
+
         if (load.position !== undefined) {
             var pos1 = {
                 lat: load.position[0],
@@ -224,7 +224,7 @@ function addpair(load) {
                 Calibration[Object.values(rPanoramas[ntimes])[1]].C1 = [rPanorama.location.latLng.lat(), rPanorama.location.latLng.lng()]
 
                 if (Calibration[Object.values(rPanoramas[ntimes])[1]].Pt[1].length > 2) {
-                    label = String(parseFloat(distanceC(point1, point2, Calibration[Object.values(rPanoramas[ntimes])[1]])).toFixed(2)) + ' (σ=' + String(parseFloat(Calibration[Object.values(rPanoramas[ntimes])[1]].cal[2]).toFixed(2))+')';
+                    label = String(parseFloat(distanceC(point1, point2, Calibration[Object.values(rPanoramas[ntimes])[1]])).toFixed(2)) + ' (σ=' + String(parseFloat(Calibration[Object.values(rPanoramas[ntimes])[1]].cal[2]).toFixed(2)) + ')';
                 } else {
                     label = distanceGoogle(point1, point2);
                 }
@@ -257,7 +257,7 @@ function addpair(load) {
                     Calibration[Object.values(rPanoramas[ntimes])[1]].dist = distanceC(point1, point2, Calibration[Object.values(rPanoramas[ntimes])[1]]);
 
                     DistE = distC()
-                    label = String(parseFloat(DistE[0]).toFixed(2)) + ' (σ=' + String(parseFloat(DistE[1]).toFixed(2))+')';
+                    label = String(parseFloat(DistE[0]).toFixed(2)) + ' (σ=' + String(parseFloat(DistE[1]).toFixed(2)) + ')';
 
                 } else {
                     label = distanceGoogle(point1, point2);
