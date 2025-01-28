@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script>
+            x = localStorage.getItem("textvalue");
             document.write("<script id='callGoogle' src='" + x + "'><\/scr" + "ipt>");
         </script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
@@ -15,93 +16,36 @@
         <script type="text/javascript" src="markerz.js"></script>
     </head>
     <body onload="initMap();">
+        <input id="pac-input" class="controls" type="text" placeholder="SearchBox">
+        <input id="floating-Date" type="textbox" name="Date">
         <div id="floating-Down">
+            <input type="submit" value="Voltar" onclick="toggleDown();">
         </div>
         <div id="floating-Up">
+            <input type="submit" value="Avançar data" onclick="toggleUp();">
         </div>
         <div id="floating-point">
+            <input type="button" value="Calibrar trena 1" onclick="addpoint([]);">
         </div>
         <div id="floating-pair">
+            <input type="button" value="Trena 1" onclick="addpair([]);">
         </div>
         <div id="floating-twoScreens1">
+            <input type="button" value="Uma/duas telas" onclick="duplicate(1);">
+        </div>
         <div id="floating-ruler2">
+            <input type="button" value="Trena 2" onclick="adcElemento();">
         </div>
+        <div id="floating-point2">
+            <input type="button" value="Calibrar imagem" onclick="adcElementoC();">
         </div>
-
-        <div id="floating-pairC">
-            <input type="button" value="Trena 1" onclick="addpairC([]);"></input>
-        </div>
-        
-            <input type="button" value="Trena 2" onclick="adcElementoC();"></input>
-        </div>
+       
 
         <div id="rMap"></div>
         <div id="pMap"></div>
         <img id="input_image" style="display: none;">
         <input type="file" id="file_input">
-        <script>
-
-            let img_input = document.getElementById('input_image');
-            let file_input = document.getElementById('file_input');
-
-            file_input.addEventListener('change', (e) => {
-                if (!e.target.files[0])
-                    return;
-
-                // Carregar a imagem no elemento oculto
-                img_input.src = URL.createObjectURL(e.target.files[0]);
-            }
-            , false);
-
-            img_input.onload = function() {
-                // Exibir imagem original em um pop-up ajustado
-                popupOriginal = window.open("", "Imagem Original", "toolbar=no, location=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600");
-
-                const popupContent = `
-        <html>
-        <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-            <title>Imagem Original</title>
-            <style>
-                body, html {
-                    margin: 0;
-                    padding: 0;
-                    height: 100%;
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: black;
-                    
-                }
-                .container {
-                    position: relative;
-                    display: flex;
-                }
-                img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    object-fit: contain;
-                    position: relative; /* Permite posicionar elementos acima */
-                    z-index: 1px; /* Imagem abaixo do ponto */
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container" id="image-original">
-                <img src="${img_input.src}" alt="Imagem Original" id="image">
-                <div class="draggable-point" style="left: 50%; top: 50%;"></div>
-            </div>
-        </body>
-        </html>
-    `;
-    
-                popupOriginal.document.write(popupContent);
-                popupOriginal.document.close();
-
-            } ;
-        </script>
+        
         <script type="text/javascript" src="teste.js"></script>
 
     </body>
