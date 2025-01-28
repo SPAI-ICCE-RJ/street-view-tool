@@ -45,7 +45,68 @@
         <div id="pMap"></div>
         <img id="input_image" style="display: none;">
         <input type="file" id="file_input">
-        
+        <script>
+
+            let img_input = document.getElementById('input_image');
+            let file_input = document.getElementById('file_input');
+
+            file_input.addEventListener('change', (e) => {
+                if (!e.target.files[0])
+                    return;
+
+                // Carregar a imagem no elemento oculto
+                img_input.src = URL.createObjectURL(e.target.files[0]);
+            }
+            , false);
+
+            img_input.onload = function() {
+                // Exibir imagem original em um pop-up ajustado
+                popupOriginal = window.open("", "Imagem Original", "toolbar=no, location=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600");
+
+                const popupContent = `
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+            <title>Imagem Original</title>
+            <style>
+                body, html {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: black;
+                    
+                }
+                .container {
+                    position: relative;
+                    display: flex;
+                }
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    position: relative; /* Permite posicionar elementos acima */
+                    z-index: 1px; /* Imagem abaixo do ponto */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container" id="image-original">
+                <img src="${img_input.src}" alt="Imagem Original" id="image">
+                <div class="draggable-point" style="left: 50%; top: 50%;"></div>
+            </div>
+        </body>
+        </html>
+    `;
+                    popupOriginal.document.write(popupContent);
+                popupOriginal.document.close();
+
+            } ;
+        </script>
         <script type="text/javascript" src="teste.js"></script>
 
     </body>
