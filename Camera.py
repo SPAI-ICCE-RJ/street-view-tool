@@ -102,9 +102,9 @@ current_win_width = 0
 current_win_height = 0
 
 # Input: valor desejado da PDF da t-Student
-y_target = 1e-6  # Exemplo: defina o valor que desejar
+y_target = 1e-5  # Exemplo: defina o valor que desejar
 
-n_values = np.arange(4, 50)  # n de 2 a 31
+n_values = np.arange(1, 50)  # n de 2 a 31
 k_values = []
 
 for n in n_values:
@@ -116,7 +116,7 @@ for n in n_values:
     
     try:
         # Encontre x > 0 onde a PDF_t atinge y_target
-        sol_x = root_scalar(equation_t, bracket=[0, 200], method='brentq')
+        sol_x = root_scalar(equation_t, bracket=[0, 2000], method='brentq')
         x_crit = sol_x.root
     except ValueError:
         # Se não houver solução (y_target maior que o pico da PDF) 
@@ -128,11 +128,11 @@ for n in n_values:
         return norm.pdf(x_crit, scale=k) - y_target
     
     try:
-        sol_k = root_scalar(equation_k, bracket=[0.1, 10], method='brentq')
+        sol_k = root_scalar(equation_k, bracket=[0.1, 1000], method='brentq')
         k_values.append(sol_k.root)
     except ValueError:
         k_values.append(np.nan)
-
+print("k_values:", k_values)
  
 # Função para ler o arquivo e agrupar os pontos pela id (primeira coluna)
 def ler_dados_txt_multi(filepath):

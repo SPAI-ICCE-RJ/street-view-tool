@@ -157,20 +157,7 @@ html, body {
     padding-right: 5px;
 }
 
-#input-pair {
-    position: absolute;
-    width: 50px;
-    top: 143px;
-    right: 65px;
-    z-index: 5;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #999;
-    text-align: center;
-    font-family: 'Roboto', 'sans-serif';
-    line-height: 1%;
-    padding-left: -100px;
-}
+
 
 #input-pair-size {
     position: absolute;
@@ -200,7 +187,7 @@ html, body {
     padding-right: 5px;
 }
 
-#floating-twoScreens2 {
+#floating-alternate {
     position: absolute;
     z-index: 5;
     background-color: #fff;

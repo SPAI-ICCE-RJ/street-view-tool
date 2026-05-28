@@ -1,85 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script>
-          x = localStorage.getItem("textvalue");
-            (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"places,geometry,visualization,marker");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-    key: x,
-    v: "weekly",
-    // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
-    // Add other bootstrap parameters as needed, using camel case.
-  });
-        </script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
-        <script type="text/javascript" src="prince.js"></script>
-        <script type="text/javascript" src="solver.js"></script>
-        <script type="text/javascript" src="markers.js"></script>
-        <script type="text/javascript" src="markerz.js"></script>
-        
-    </head>
-    <body onload="initMap();">
-        <input id="pac-input" class="controls" type="text" placeholder="SearchBox">
-        <input id="floating-Date" type="textbox" name="Date">
-        <div id="floating-Down">
-            <input type="submit" value="Voltar" onclick="toggleDown();">
-        </div>
-        <div id="floating-Up">
-            <input type="submit" value="Avançar data" onclick="toggleUp();">
-        </div>
-        <!-- <div id="floating-point">
-            <input type="button" value="Calibrar trena" onclick="addpoint([]);">
-        </div> -->
-        <!-- <div id="floating-pair">
-            <input type="button" value="Trena" onclick="addpair([]);">
-        </div> -->
-        <div id="floating-twoScreens1">
-            <input type="button" value="Uma/duas telas" onclick="duplicate(1);">
-        </div>
-        <div id="floating-ruler2">
-            <input type="button" value="Régua" onclick="adcElemento();">
-        </div>
-        <div id="floating-point2">
-            <input type="button" value="Calibrar python" onclick="adcElementoC();">
-        </div>
 
-        <button id="download-btn" onclick="solverP(),download('dados.txt',dados)">Download</button>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        x = localStorage.getItem("textvalue");
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + "places,geometry,visualization,marker"); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: x,
+            v: "weekly",
+            // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+            // Add other bootstrap parameters as needed, using camel case.
+        });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+    <script type="text/javascript" src="prince.js"></script>
+    <script type="text/javascript" src="solver.js"></script>
+    <script type="text/javascript" src="markers.js"></script>
+    <script type="text/javascript" src="markerz.js"></script>
 
-        <div id="input-points">
+</head>
+
+<body onload="initMap();">
+    <input id="pac-input" class="controls" type="text" placeholder="SearchBox">
+    <input id="floating-Date" type="textbox" name="Date">
+    <div id="floating-Down">
+        <input type="submit" value="Voltar" onclick="toggleDown();">
+    </div>
+    <div id="floating-Up">
+        <input type="submit" value="Avançar data" onclick="toggleUp();">
+    </div>
+    <div id="input-pair">
+        <input type="number" id="distance-value" placeholder="Distância (cm)" min="0" step="0.1" lang="en-US" style="width: 100px; padding: 5px; text-align: center;">
+    </div>
+    <div id="floating-pairC">
+        <input type="button" value="Calibrar SV" onclick="adcElementoC();">
+    </div>
+    <div id="floating-twoScreens1">
+        <input type="button" value="Uma/duas telas" onclick="duplicate(1);">
+    </div>
+
+    <div id="floating-alternate">
+        <input type="button" value="Alternar" onclick="alternate();">
+    </div>
+    <div id="floating-ruler2">
+        <input type="button" value="Régua" onclick="adcElemento();">
+    </div>
+    <div id="floating-point2">
+        <input type="button" value="Calibrar imagem" onclick="adcElementoP();">
+    </div>
+
+    <button id="download-btn" onclick="solverP(),download('dados.txt',dados)">Baixar dados</button>
+
+    <div id="input-points">
         <input type="number" value="0" style="width: 30px; background: #fff;">
-        </div>
-       
-        <div id="rMap"></div>
-        <div id="pMap"></div>
-        <img id="input_image" style="display: none;">
-        <input type="file" id="file_input">
-        <input type="file" id="file_txt">
-        <script>
+    </div>
+
+    <div id="rMap"></div>
+    <div id="pMap"></div>
+    <img id="input_image" style="display: none;">
+    <div id="file_input_container">
+        <button onclick="document.getElementById('file_input').click()">Carregar imagem</button>
+        <input type="file" id="file_input" style="display: none;">
+    </div>
+    <div id="file_txt_container">
+        <button onclick="document.getElementById('file_txt').click()">Carregar dados</button>
+        <input type="file" id="file_txt" style="display: none;">
+    </div>
+    <script>
         document.getElementById('file_txt').addEventListener('change', handleFileSelect, false);
-        </script>
+    </script>
 
-        <script>
+    <script>
 
-            let img_input = document.getElementById('input_image');
-            let file_input = document.getElementById('file_input');
+        let img_input = document.getElementById('input_image');
+        let file_input = document.getElementById('file_input');
 
-            file_input.addEventListener('change', (e) => {
-                if (!e.target.files[0])
-                    return;
+        file_input.addEventListener('change', (e) => {
+            if (!e.target.files[0])
+                return;
 
-                // Carregar a imagem no elemento oculto
-                img_input.src = URL.createObjectURL(e.target.files[0]);
-            }
+            // Carregar a imagem no elemento oculto
+            img_input.src = URL.createObjectURL(e.target.files[0]);
+        }
             , false);
 
-            img_input.onload = function() {
-                // Exibir imagem original em um pop-up ajustado
-                popupOriginal = window.open("", "Imagem Original", "toolbar=no, location=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600");
+        img_input.onload = function () {
+            // Exibir imagem original em um pop-up ajustado
+            popupOriginal = window.open("", "Imagem Original", "toolbar=no, location=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600");
 
-                const popupContent = `
+            const popupContent = `
         <html>
                 <head>
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -114,10 +126,11 @@
                 </body>
                 </html>
     `;
-                    popupOriginal.document.write(popupContent);
-                popupOriginal.document.close();
+            popupOriginal.document.write(popupContent);
+            popupOriginal.document.close();
 
-            } ;
-        </script>
-    </body>
+        };
+    </script>
+</body>
+
 </html>

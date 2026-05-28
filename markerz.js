@@ -10,240 +10,94 @@ adcElemento = function () {
         Panorama.getPano() + "B"
 
     if (Panorama.__gm.panes.overlayLayer.children[Name[1]] == undefined || Math.abs(Panorama.__gm.panes.overlayLayer.children.length % 2) == 1) {
-        
-       
-        
+
         SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
         SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
         SVO.markerWidth = 18;
         SVO.markerHeight = 18;
 
-        if (eid("centroR")) {
-            astorPlace = {
-                lat: rPanorama.position.lat(),
-                lng: rPanorama.position.lng(),
-            };
+        if (Panorama.__gm.panes.overlayLayer.children[Name[0]] == undefined) {
+            ii = 0
+            Dates.add(JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11))
 
-            var divNova = document.createElement("i");
-            divNova.id = "centroR"
-            divNova.style.position = "absolute"
-            divNova.style.top = (SVO.panHeight - SVO.markerWidth/4) / 2 + "px"
-            divNova.style.left = (SVO.panWidth - SVO.markerWidth/4) / 2 + "px"
-            divNova.style.fontSize = SVO.markerWidth/4 + "px"
-            divNova.style.color = "black"
-            divNova.classList.add('fa', "fa-circle")
-            Panorama.__gm.panes.overlayImage.appendChild(divNova)
         }
-        else {
+        if (Panorama.__gm.panes.overlayLayer.children[Name[1]] == undefined) { ii = 1 }
 
-            if (Panorama.__gm.panes.overlayLayer.children[Name[0]] == undefined) {
-                ii = 0
-                Dates.add(JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11))
-
-            }
-            if (Panorama.__gm.panes.overlayLayer.children[Name[1]] == undefined) { ii = 1 }
-
-
-            var divNova = document.createElement("i");
-            divNova.id = Name[ii]
-            divNova.style.position = "absolute"
-            divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2+ "px"
-            divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
-            divNova.style.fontSize = SVO.markerWidth + "px"
-            divNova.style.color = "red"
-
-            divNova.sheading = Panorama.getPov().heading;
-            divNova.spitch = Panorama.getPov().pitch;
-            divNova.cPosition = cartesian(Panorama.position.lat(), Panorama.position.lng())
-
-            divNova.classList.add('fa', 'fa-dot-circle-o')
-            var conteudoNovo = document.createTextNode(rul[ii]);
-            divNova.appendChild(conteudoNovo);
-            Panorama.__gm.panes.overlayLayer.appendChild(divNova);
-            dragElement(eid(Name[ii]));
-
-
-            Panorama.addListener('pov_changed', function () {
-                SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
-                SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-                var neime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
-                    this.getPano()
-
-                if ((this.__gm.panes.overlayLayer.children[neime + "A"])) {
-                    m_updateMarker(eid(neime + "A"), this.getPov())
-                }
-                if ((this.__gm.panes.overlayLayer.children[neime + "B"])) {
-                    m_updateMarker(eid(neime + "B"), this.getPov())
-                }
-            });
-
-            Panorama.addListener('pano_changed', function () {
-                let ii
-                SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
-                SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-                var neime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
-                    this.getPano()
-
-                if ((this.__gm.panes.overlayLayer.children[neime + "A"])) {
-                    m_updateMarker(eid(neime + "A"), this.getPov())
-                }
-                if ((this.__gm.panes.overlayLayer.children[neime + "B"])) {
-                    m_updateMarker(eid(neime + "B"), this.getPov())
-                }
-                if (this.__gm.panes.overlayLayer.children.length > 0) {
-                    for (kk = 0; kk < this.__gm.panes.overlayLayer.children.length / 2; kk++) {
-                        this.__gm.panes.overlayLayer.children[2 * kk].style.display = neime + "A" ==
-                            this.__gm.panes.overlayLayer.children[2 * kk] ? "block" : "none";
-                        this.__gm.panes.overlayLayer.children[2 * kk + 1].style.display = neime + "B" ==
-                            this.__gm.panes.overlayLayer.children[2 * kk + 1] ? "block" : "none";
-                    }
-                }
-            });
-        }
-    } else {
-        Panorama.__gm.panes.overlayLayer.children[Name[1]].remove();
-        Panorama.__gm.panes.overlayLayer.children[Name[0]].remove();
-    }
-     if (rPanorama.__gm.panes.overlayLayer.children.length > 2 && !popupOriginal && Math.abs(rPanorama.__gm.panes.overlayLayer.children.length % 2) == 0) {
-            slt = solverH(rPanorama.__gm.panes.overlayLayer.children);
-            for (ii = 0; ii < rPanorama.__gm.panes.overlayLayer.children.length / 2; ii++) {
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
-
-            rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n Altura: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n Afastamento: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n Distância: ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
-            }
-        }
-}
-
-
-adcElementoT = function () {
-
-    var oPanorama = []
-
-    oPanorama[0] = rPanorama;
-    oPanorama[1] = pPanorama;
-
-    SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
-    SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-    SVO.markerWidth = 15;
-    SVO.markerHeight = 15;
-
-    if (eid("centroR")) {
-        var divNova = document.createElement("i");
-        divNova.id = "centroR"
-        divNova.style.position = "absolute"
-        divNova.style.top = (SVO.panHeight - SVO.markerWidth/2) / 2 + "px"
-        divNova.style.left = (SVO.panWidth - SVO.markerWidth/2) / 2 + "px"
-        divNova.style.fontSize = SVO.markerWidth/4 + "px"
-        divNova.style.color = "black"
-        divNova.classList.add('fa', 'fa-circle')
-
-        rPanorama.__gm.panes.overlayImage.appendChild(divNova)
-        if (eid("centroP")) {
-            var divNova = document.createElement("i");
-            divNova.id = "centroP"
-            divNova.style.position = "absolute"
-            divNova.style.top = (SVO.panHeight - SVO.markerWidth) / 2 + "px"
-            divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
-            divNova.style.fontSize = SVO.markerWidth + "px"
-            divNova.style.color = "red"
-            divNova.classList.add('fa', 'fa-plus-circle')
-            pPanorama.__gm.panes.overlayImage.appendChild(divNova)
-        }
-
-    }
-
-    for (ii = 0; ii < 2; ii++) {
-
-        var Panorama = oPanorama[ii];
-        var rul = "P"
-        Name = Panorama.getPano() + rul
 
         var divNova = document.createElement("i");
-        divNova.id = Name
+        divNova.id = Name[ii]
         divNova.style.position = "absolute"
         divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
         divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
+        divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+
 
         divNova.sheading = Panorama.getPov().heading;
         divNova.spitch = Panorama.getPov().pitch;
-        // divNova.cPosition = cartesian(Panorama.position.lat(), Panorama.position.lng())
-
-        divNova.gPosition = Panorama.position
-        divNova.pano = Panorama.pano
-        //divNova.day = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11)
-
-
+        divNova.cPosition = cartesian(Panorama.position.lat(), Panorama.position.lng())
+        divNova.pano=Panorama.getPano()
         divNova.classList.add('fa', 'fa-dot-circle-o')
-        var conteudoNovo = document.createTextNode("P");
+        var conteudoNovo = document.createTextNode(rul[ii]);
         divNova.appendChild(conteudoNovo);
         Panorama.__gm.panes.overlayLayer.appendChild(divNova);
-
-        dragElement(eid(Name), Panorama.getPov());
-
+        dragElement(eid(Name[ii]));
 
 
         Panorama.addListener('pov_changed', function () {
             SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
             SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+            var neime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
+                this.getPano()
 
-            for (let jj = 0; jj <= this.__gm.panes.overlayLayer.children.length; jj++) {
-
-                numb = String(jj)
-                ru = ["P" + numb]
-                if ((this.__gm.panes.overlayLayer.children[this.getPano() + ru]) &&
-                    popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(jj)]) {
-                    m_updateMarker(eid(this.getPano() + ru), this.getPov())
-                }
+            if ((this.__gm.panes.overlayLayer.children[neime + "A"])) {
+                m_updateMarker(eid(neime + "A"), this.getPov())
             }
-
+            if ((this.__gm.panes.overlayLayer.children[neime + "B"])) {
+                m_updateMarker(eid(neime + "B"), this.getPov())
+            }
         });
-
 
         Panorama.addListener('pano_changed', function () {
+            let ii
             SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
             SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+            var neime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
+                this.getPano()
 
-            for (kk = 0; kk < rPanorama.__gm.panes.overlayLayer.children.length; kk++) {
-                if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+            if ((this.__gm.panes.overlayLayer.children[neime + "A"])) {
+                m_updateMarker(eid(neime + "A"), this.getPov())
+            }
+            if ((this.__gm.panes.overlayLayer.children[neime + "B"])) {
+                m_updateMarker(eid(neime + "B"), this.getPov())
+            }
+            if (this.__gm.panes.overlayLayer.children.length > 0) {
+                for (kk = 0; kk < this.__gm.panes.overlayLayer.children.length / 2; kk++) {
+                    this.__gm.panes.overlayLayer.children[2 * kk].style.display = neime + "A" ==
+                        this.__gm.panes.overlayLayer.children[2 * kk] ? "block" : "none";
+                    this.__gm.panes.overlayLayer.children[2 * kk + 1].style.display = neime + "B" ==
+                        this.__gm.panes.overlayLayer.children[2 * kk + 1] ? "block" : "none";
                 }
             }
-            for (kk = 0; kk < pPanorama.__gm.panes.overlayLayer.children.length; kk++) {
-                if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-            }
-
-
-            for (kk = 0; kk < popupOriginal.document.all.length - 8 - 2 * window._marcadoresPLinhasCount; kk++) {
-
-                numb = String(kk)
-                ru = ["P" + numb]
-                if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-                if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-
-                if (rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
-                    this.__gm.panes.overlayLayer.appendChild(rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
-                }
-                if (pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
-                    this.__gm.panes.overlayLayer.appendChild(pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
-                }
-            }
-
         });
+    } else {
+        Panorama.__gm.panes.overlayLayer.children[Name[1]].remove();
+        Panorama.__gm.panes.overlayLayer.children[Name[0]].remove();
     }
-    if (popupOriginal) {
-        solverP()
+    if (rPanorama.__gm.panes.overlayLayer.children.length > 2 && !popupOriginal && Math.abs(rPanorama.__gm.panes.overlayLayer.children.length % 2) == 0) {
+        slt = solverH(rPanorama.__gm.panes.overlayLayer.children);
+        for (ii = 0; ii < rPanorama.__gm.panes.overlayLayer.children.length / 2; ii++) {
+            if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
+                rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
+
+                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n Altura: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n Afastamento: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n Distância: ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
+            }
+        }
     }
 }
 
-adcElementoC = function () {
+adcElementoP = function () {
 
     var oPanorama = []
     numb = String(popupOriginal.document.all.length - 8)
@@ -257,29 +111,9 @@ adcElementoC = function () {
     SVO.markerHeight = 15;
 
     if (!eid("centroR")) {
-        var divNova = document.createElement("i");
-        divNova.id = "centroR"
-        divNova.style.position = "absolute"
-        divNova.style.top = (SVO.panHeight - SVO.markerWidth) / 2 + "px"
-        divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
-        divNova.style.fontSize = SVO.markerWidth + "px"
-        divNova.style.color = "red"
-        divNova.classList.add('fa', 'fa-plus-circle')
-
-        rPanorama.__gm.panes.overlayImage.appendChild(divNova)
-        if (!eid("centroP")) {
-            var divNova = document.createElement("i");
-            divNova.id = "centroP"
-            divNova.style.position = "absolute"
-            divNova.style.top = (SVO.panHeight - SVO.markerWidth) / 2 + "px"
-            divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
-            divNova.style.fontSize = SVO.markerWidth + "px"
-            divNova.style.color = "red"
-            divNova.classList.add('fa', 'fa-plus-circle')
-            pPanorama.__gm.panes.overlayImage.appendChild(divNova)
-        }
 
     }
+
     NameQ = combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano())
 
     numbL = countElementsByIdPrefix(popupOriginal.document, NameQ);
@@ -292,8 +126,10 @@ adcElementoC = function () {
     divNova.style.top = "50%"
     divNova.style.left = "50%"
     divNova.style.zIndex = "10";
-    divNova.style.fontSize = popupOriginal.document.getElementById("image-original").children.image.height/40 + "px"
+    divNova.style.fontSize = popupOriginal.document.getElementById("image-original").children.image.height / 100 + "px"
     divNova.style.color = "red"
+    divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+
     divNova.classList.add('fa', 'fa-dot-circle-o', 'marker')
     divNova.onclick = function () {
         const id = this.id;
@@ -331,7 +167,7 @@ adcElementoC = function () {
 
     for (ii = 0; ii < 2; ii++) {
 
-        Panorama = oPanorama[ii];
+        var Panorama = oPanorama[ii];
         var rul = "P" + numb
         Name = Panorama.getPano() + rul
 
@@ -342,6 +178,8 @@ adcElementoC = function () {
         divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
+
+        divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
 
         divNova.sheading = Panorama.getPov().heading;
         divNova.spitch = Panorama.getPov().pitch;
@@ -359,83 +197,221 @@ adcElementoC = function () {
 
         dragElement(eid(Name), Panorama.getPov());
 
+        if (numb == 0) {
+            Panorama.addListener('pov_changed', function () {
+                const self = this;
+                setTimeout(() => {
+                    SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+                    SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
 
+                    for (let jj = 0; jj <= this.__gm.panes.overlayLayer.children.length; jj++) {
 
-        Panorama.addListener('pov_changed', function () {
-            SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
-            SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-
-            for (let jj = 0; jj <= this.__gm.panes.overlayLayer.children.length; jj++) {
-
-                numb = String(jj)
-                ru = ["P" + numb]
-                if ((this.__gm.panes.overlayLayer.children[this.getPano() + ru]) &&
-                    popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(jj)]) {
-                    m_updateMarker(eid(this.getPano() + ru), this.getPov())
-                }
-            }
-
-        });
-
-
-        Panorama.addListener('pano_changed', function () {
-            SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
-            SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-
-            for (kk = 0; kk < rPanorama.__gm.panes.overlayLayer.children.length; kk++) {
-                if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-            }
-            for (kk = 0; kk < pPanorama.__gm.panes.overlayLayer.children.length; kk++) {
-                if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-            }
-
-
-            for (kk = 0; kk < popupOriginal.document.all.length - 8 - 2 * window._marcadoresPLinhasCount; kk++) {
-
-                numb = String(kk)
-                ru = ["P" + numb]
-                if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-                if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
-                    pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
-                }
-
-                if (rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
-                    this.__gm.panes.overlayLayer.appendChild(rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
-                }
-                if (pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
-                    this.__gm.panes.overlayLayer.appendChild(pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
-                }
-
-
-                if (popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)]) {
-                    popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)].style.display = "block";
-                    if (this.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
-
-                        this.__gm.panes.overlayLayer.children[this.getPano() + ru].style.display = "block";
-                        m_updateMarker(eid(this.getPano() + ru), this.getPov())
+                        numb = String(jj)
+                        ru = ["P" + numb]
+                        if ((this.__gm.panes.overlayLayer.children[this.getPano() + ru]) &&
+                            popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(jj)]) {
+                            m_updateMarker(eid(this.getPano() + ru), this.getPov())
+                        }
                     }
-                } else {
-                    popupOriginal.document.all[8 + kk].style.display = "none";
-                }
+                }, 50);
+            });
 
 
-                //  this.__gm.panes.overlayLayer.children[kk].style.display = this.getPano() ==
-                //    this.__gm.panes.overlayLayer.children[2 * kk] ? "block" : "none";
-            }
+            Panorama.addListener('pano_changed', function () {
+                const self = this;
+                setTimeout(() => {
+                    SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+                    SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
 
-        });
+                    for (kk = 0; kk < rPanorama.__gm.panes.overlayLayer.children.length; kk++) {
+                        if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
+                            rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                        }
+                    }
+                    for (kk = 0; kk < pPanorama.__gm.panes.overlayLayer.children.length; kk++) {
+                        if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
+                            pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                        }
+                    }
+
+
+                    for (kk = 0; kk < popupOriginal.document.all.length - 8 - 2 * window._marcadoresPLinhasCount; kk++) {
+
+                        numb = String(kk)
+                        ru = ["P" + numb]
+                        if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
+                            rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                        }
+                        if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
+                            pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                        }
+
+                        if (rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
+                            this.__gm.panes.overlayLayer.appendChild(rPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
+                        }
+                        if (pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
+                            this.__gm.panes.overlayLayer.appendChild(pPanorama.__gm.panes.overlayLayer.children[this.getPano() + ru])
+                        }
+
+
+                        if (popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)]) {
+                            popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)].style.display = "block";
+                            if (this.__gm.panes.overlayLayer.children[this.getPano() + ru]) {
+
+                                this.__gm.panes.overlayLayer.children[this.getPano() + ru].style.display = "block";
+                                m_updateMarker(eid(this.getPano() + ru), this.getPov())
+                            }
+                        } else {
+                            popupOriginal.document.all[8 + kk].style.display = "none";
+                        }
+
+
+                        //  this.__gm.panes.overlayLayer.children[kk].style.display = this.getPano() ==
+                        //    this.__gm.panes.overlayLayer.children[2 * kk] ? "block" : "none";
+                    }
+                }, 50);
+            });
+
+        }
     }
     if (popupOriginal) {
         solverP()
     }
 }
 
+adcElementoC = function () {
+    var oPanorama = []
+    numb = String(rPanorama.__gm.panes.overlayLayer.children.length +
+        pPanorama.__gm.panes.overlayLayer.children.length)
+
+    oPanorama[0] = rPanorama;
+    oPanorama[1] = pPanorama;
+
+    SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+    SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+    SVO.markerWidth = 15;
+    SVO.markerHeight = 15;
+
+    numbL = countElementsByIdPrefix(document, [rPanorama.getPano() + "&" + pPanorama.getPano()]) / 2;
+    var AB = []
+    AB[0] = ""
+    const inputElement = document.getElementById("distance-value");
+
+    AB[1] = "(" + (inputElement ? inputElement.value : "0") + " cm)"
+    for (ii = 0; ii < 2; ii++) {
+        var Panorama = oPanorama[ii];
+        if (ii == 0) {
+            NameQ = [rPanorama.getPano() + "&" + pPanorama.getPano()]
+        } else {
+            NameQ = [pPanorama.getPano() + "&" + rPanorama.getPano()]
+        }
+
+        for (jj = 0; jj < 2; jj++) {
+
+            if (inputElement.value.length == 0 || inputElement.value === "0") {
+                if (numbL > 0) {
+                    Name = NameQ + "C" + String(2 * (Number(numbL) - 1) + jj)
+                    Panorama.__gm.panes.overlayLayer.children[Name].remove();
+                }
+            } else {
+
+                var rul = "C" + numbL + AB[jj]
+                Name = NameQ + "C" + String(2 * Number(numbL) + jj)
+                var divNova = document.createElement("i");
+                divNova.id = Name
+                divNova.style.position = "absolute"
+                divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
+                divNova.style.left = ((SVO.panWidth - SVO.markerWidth) / 2 - 50 + jj * 100) + "px"
+                divNova.style.fontSize = SVO.markerWidth + "px"
+                divNova.style.color = "red"
+                divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+
+
+                divNova.sheading = Panorama.getPov().heading;
+                divNova.spitch = Panorama.getPov().pitch;
+                // divNova.cPosition = cartesian(Panorama.position.lat(), Panorama.position.lng())
+
+                divNova.gPosition = Panorama.position
+                divNova.pano = Panorama.pano
+                divNova.reference = inputElement ? inputElement.value : "0"
+                //divNova.day = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11)
+
+
+                divNova.classList.add('fa', 'fa-dot-circle-o')
+                var conteudoNovo = document.createTextNode(rul);
+                divNova.appendChild(conteudoNovo);
+                Panorama.__gm.panes.overlayLayer.appendChild(divNova);
+
+                dragElement(eid(Name), Panorama.getPov());
+            }
+            if (numbL == 0) {
+                Panorama.addListener('pov_changed', function () {
+                    const self = this;
+                    setTimeout(() => {
+                        SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+                        SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+
+                        for (let jj = 0; jj <= this.__gm.panes.overlayLayer.children.length; jj++) {
+                            ru = ["C" + String(jj)]
+                            if ((this.__gm.panes.overlayLayer.children[this.getPano() + "&" + rPanorama.getPano() + ru])) {
+                                m_updateMarker(eid(this.getPano() + "&" + rPanorama.getPano() + ru), this.getPov())
+                            }
+                            if ((this.__gm.panes.overlayLayer.children[this.getPano() + "&" + pPanorama.getPano() + ru])) {
+                                m_updateMarker(eid(this.getPano() + "&" + pPanorama.getPano() + ru), this.getPov())
+                            }
+                        }
+                    }, 1);
+                });
+
+
+                Panorama.addListener('pano_changed', function () {
+                    const self = this;
+                    setTimeout(() => {
+                        SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+                        SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
+
+                        for (kk = 0; kk < rPanorama.__gm.panes.overlayLayer.children.length; kk++) {
+                            if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
+                                rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                            }
+                        }
+                        for (kk = 0; kk < pPanorama.__gm.panes.overlayLayer.children.length; kk++) {
+                            if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
+                                pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                            }
+                        }
+                        nb = String(rPanorama.__gm.panes.overlayLayer.children.length +
+                            pPanorama.__gm.panes.overlayLayer.children.length)
+
+
+                        for (kk = 0; kk < nb; kk++) {
+                            ru = ["C" + String(kk)]
+                            if (rPanorama.__gm.panes.overlayLayer.children[kk]) {
+                                rPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                            }
+                            if (pPanorama.__gm.panes.overlayLayer.children[kk]) {
+                                pPanorama.__gm.panes.overlayLayer.children[kk].style.display = "none";
+                            }
+
+                            if (rPanorama.__gm.panes.overlayLayer.children[this.getPano() + "&" + rPanorama.getPano() + ru]) {
+                                this.__gm.panes.overlayLayer.appendChild(rPanorama.__gm.panes.overlayLayer.children[this.getPano() + "&" + rPanorama.getPano() + ru])
+                                this.__gm.panes.overlayLayer.children[this.getPano() + "&" + rPanorama.getPano() + ru].style.display = "block";
+                                m_updateMarker(eid(this.getPano() + "&" + rPanorama.getPano() + ru), this.getPov())
+
+                            }
+                            if (pPanorama.__gm.panes.overlayLayer.children[this.getPano() + "&" + pPanorama.getPano() + ru]) {
+                                this.__gm.panes.overlayLayer.appendChild(pPanorama.__gm.panes.overlayLayer.children[this.getPano() + "&" + pPanorama.getPano() + ru])
+                                this.__gm.panes.overlayLayer.children[this.getPano() + "&" + pPanorama.getPano() + ru].style.display = "block";
+                                m_updateMarker(eid(this.getPano() + "&" + pPanorama.getPano() + ru), this.getPov())
+                            }
+                        }
+                    }, 1);
+                });
+            }
+        }
+
+    }
+}
 
 dragElement = function (elmnt) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -461,7 +437,7 @@ dragElement = function (elmnt) {
     }
 
     function elementDrag(e) {
-        SVO.panWidth  = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+        SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
         SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
 
         e = e || window.event;
@@ -472,37 +448,37 @@ dragElement = function (elmnt) {
         pos3 = e.clientX;
         pos4 = e.clientY;
 
-        elmnt.style.top  = (elmnt.offsetTop  - pos2) + "px";
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 
         var l_pov = (SVO.panWidth > e.clientX) ? rPanorama.getPov() : pPanorama.getPov();
         var l_zoom = l_pov.zoom;
 
         var l_fovAngle = l_zoom === 0 ? 0.475 : Math.pow(2, l_zoom - 1);
-       
-        var l_midX = SVO.panWidth  / 2;
+
+        var l_midX = SVO.panWidth / 2;
         var l_midY = SVO.panHeight / 2;
 
         // Posição atual do marcador na tela (o que o usuário arrastou)
         var targetX = elmnt.offsetLeft - pos1;
-        var targetY = elmnt.offsetTop  - pos2;
+        var targetY = elmnt.offsetTop - pos2;
 
         // Função de custo: m_updateMarker produz (x,y) a partir de (sheading, spitch)
         // queremos que produza exatamente (targetX, targetY)
         function cost(v) {
             var sheading = v[0];
-            var spitch   = v[1];
+            var spitch = v[1];
 
             var θ_P = sheading * Math.PI / 180;
-            var γ_P = spitch   * Math.PI / 180;
+            var γ_P = spitch * Math.PI / 180;
             var θ_0 = l_pov.heading * Math.PI / 180;
-            var γ_0 = l_pov.pitch   * Math.PI / 180;
+            var γ_0 = l_pov.pitch * Math.PI / 180;
 
             var dθ = θ_P - θ_0;
 
             var cos_γ0 = Math.cos(γ_0), sin_γ0 = Math.sin(γ_0);
             var cos_γP = Math.cos(γ_P), sin_γP = Math.sin(γ_P);
-            var cos_dθ = Math.cos(dθ),  sin_dθ = Math.sin(dθ);
+            var cos_dθ = Math.cos(dθ), sin_dθ = Math.sin(dθ);
 
             var Sx = cos_γP * sin_dθ;
             var Sy = cos_γ0 * cos_γP * cos_dθ + sin_γ0 * sin_γP;
@@ -514,36 +490,38 @@ dragElement = function (elmnt) {
             var proj_y = Sz / Sy;
 
             // Idêntico ao m_updateMarker
-            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth  / 2;
+            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2;
             var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
 
             var dx = targetX - x;
             var dy = targetY - y;
-            return dx*dx + dy*dy;
+            return dx * dx + dy * dy;
         }
 
         // Chute inicial: ângulos atuais do marcador
         var h_init = elmnt.sheading || l_pov.heading;
-        var p_init = elmnt.spitch   || l_pov.pitch;
+        var p_init = elmnt.spitch || l_pov.pitch;
 
         var result = numeric.uncmin(cost, [h_init, p_init]);
 
         elmnt.sheading = result.solution[0];
-        elmnt.spitch   = result.solution[1];
+        elmnt.spitch = result.solution[1];
+
 
         if (rPanorama.__gm.panes.overlayLayer.children.length > 2 && !popupOriginal &&
             Math.abs(rPanorama.__gm.panes.overlayLayer.children.length % 2) == 0) {
-
             slt = solverH(rPanorama.__gm.panes.overlayLayer.children);
             for (ii = 0; ii < rPanorama.__gm.panes.overlayLayer.children.length / 2; ii++) {
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText =
-                    '\n Altura: '      + parseFloat(slt[0]).toFixed(1) +
-                    ' (σ='            + parseFloat(slt[1]).toFixed(1) + ')' +
-                    '\n Afastamento: ' + parseFloat(slt[2]).toFixed(1) +
-                    ' (σ='            + parseFloat(slt[3]).toFixed(1) + ')' +
-                    ' \n Distância: '  + parseFloat(slt[4]).toFixed(1) +
-                    ' (σ='            + parseFloat(slt[5]).toFixed(1) + ')';
+                if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
+                    rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
+                    rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText =
+                        '\n Altura: ' + parseFloat(slt[0]).toFixed(1) +
+                        ' (σ=' + parseFloat(slt[1]).toFixed(1) + ')' +
+                        '\n Afastamento: ' + parseFloat(slt[2]).toFixed(1) +
+                        ' (σ=' + parseFloat(slt[3]).toFixed(1) + ')' +
+                        ' \n Distância: ' + parseFloat(slt[4]).toFixed(1) +
+                        ' (σ=' + parseFloat(slt[5]).toFixed(1) + ')';
+                }
             }
         }
     }
@@ -555,6 +533,8 @@ dragElement = function (elmnt) {
             popupOriginal.document.onmouseup = null;
             popupOriginal.document.onmousemove = null;
             solverP();
+        } else {
+            solverC()
         }
     }
 }
@@ -562,7 +542,7 @@ dragElement = function (elmnt) {
 // create the 'marker' (a div containing an image which can be clicked)
 
 m_updateMarker = function (elmnt, l_pov) {
-    SVO.panWidth  = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
+    SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
     SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
 
     if (!l_pov) return;
@@ -571,19 +551,19 @@ m_updateMarker = function (elmnt, l_pov) {
 
     var l_fovAngle = l_zoom === 0 ? 0.475 : Math.pow(2, l_zoom - 1);
 
-    var l_midX = SVO.panWidth  / 2;
+    var l_midX = SVO.panWidth / 2;
     var l_midY = SVO.panHeight / 2;
 
     var θ_P = elmnt.sheading * Math.PI / 180;
-    var γ_P = elmnt.spitch   * Math.PI / 180;
-    var θ_0 = l_pov.heading  * Math.PI / 180;
-    var γ_0 = l_pov.pitch    * Math.PI / 180;
+    var γ_P = elmnt.spitch * Math.PI / 180;
+    var θ_0 = l_pov.heading * Math.PI / 180;
+    var γ_0 = l_pov.pitch * Math.PI / 180;
 
     var dθ = θ_P - θ_0;
 
     var cos_γ0 = Math.cos(γ_0), sin_γ0 = Math.sin(γ_0);
     var cos_γP = Math.cos(γ_P), sin_γP = Math.sin(γ_P);
-    var cos_dθ = Math.cos(dθ),  sin_dθ = Math.sin(dθ);
+    var cos_dθ = Math.cos(dθ), sin_dθ = Math.sin(dθ);
 
     // Componentes após rotação inversa da câmera
     var Sx = cos_γP * sin_dθ;
@@ -600,16 +580,14 @@ m_updateMarker = function (elmnt, l_pov) {
     var proj_x = Sx / Sy;
     var proj_y = Sz / Sy;
 
-    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth  / 2;
+    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2;
     var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
 
-    elmnt.style.left    = x + "px";
-    elmnt.style.top     = y + "px";
+    elmnt.style.left = x + "px";
+    elmnt.style.top = y + "px";
     elmnt.style.display = "block";
 };
 
-
-// utils
 function eid(id) {
     return document.getElementById(id);
 }
@@ -624,7 +602,6 @@ function normalizeAngle(a) {
     return a;
 }
 
-
 function combineStringsCommutative(str1, str2) {
     // Ordena as strings alfabeticamente para garantir que a ordem não importe
     const sorted = [str1, str2].sort();
@@ -633,7 +610,7 @@ function combineStringsCommutative(str1, str2) {
 
 function countElementsByIdPrefix(container, prefix) {
     let count = 0;
-    for (let i = 8; i < container.all.length; i++) {
+    for (let i = 0; i < container.all.length; i++) {
         if (container.all[i].id && container.all[i].id.startsWith(prefix)) {
             count++;
         }
@@ -649,10 +626,6 @@ function splitStringsCommutative(combinedStr) {
     // Retorna as duas strings em ordem alfabética (como estavam na combinação)
     return { str1: parts[0], str2: parts[1] };
 }
-
-// Exemplo de uso:
-// const { str1, str2 } = splitStringsCommutative("abc&def");
-// console.log(str1, str2); // "abc" "def"
 
 // Inicialize o array global para as linhas, se ainda não existir
 if (!window._marcadoresPLinhasCount) window._marcadoresPLinhasCount = 0;
