@@ -5,17 +5,390 @@
         <script type="text/javascript">
             function passvalues() {
                 var key = document.getElementById("txt").value;
-                localStorage.setItem("textvalue", key)
+                
+                // Se a chave estiver vazia, usar a chave padrão
+                if (!key || key.trim() === "") {
+                    key = "AIzaSyDewpeAvHtu7rX3sr84xapp0vRXDe2slcA";
+                }
+                
+                localStorage.setItem("textvalue", key);
                 return false;
+            }
+
+            // Toggle tutorial
+            function toggleTutorial() {
+                var tutorial = document.getElementById("tutorial-content");
+                var btn = document.getElementById("tutorial-btn");
+                
+                if (tutorial.classList.contains("active")) {
+                    tutorial.classList.remove("active");
+                    btn.value = "Ver Tutorial sobre a ferramenta";
+                } else {
+                    tutorial.classList.add("active");
+                    btn.value = "Ocultar Tutorial";
+                }
             }
         </script>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="https://html5-templates.com/" />
-    <title>SPAI-ICCE</title>
-    <meta name="description" content="Simplified Bootstrap template with sticky menu">
+    <title>SPAI-ICCE - Street View Tool</title>
+    <meta name="description" content="Ferramenta de análise Street View para verificação de excesso de velocidade">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sticky-menu.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        /* Cores principais */
+        :root {
+            --primary-color: #1a3a52;
+            --secondary-color: #2980b9;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: #f9f9f9;
+        }
+
+        /* Navbar melhorada */
+        .navbar-default {
+            background-color: white !important;
+            border-bottom: 3px solid var(--secondary-color) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 18px !important;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            padding: 8px 15px !important;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 15px;
+            object-fit: contain;
+        }
+
+        .navbar-default .navbar-nav > li > a {
+            color: var(--dark-text) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .navbar-default .navbar-nav > li > a:hover {
+            color: var(--secondary-color) !important;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        /* Seção Welcome */
+        #welcome {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0 60px 0;
+            text-align: center;
+        }
+
+        #welcome h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #welcome p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        #welcome a {
+            color: #ecf0f1;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        #welcome a:hover {
+            color: #fff;
+        }
+
+        /* Seção About */
+        #about {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        #about h1 {
+            color: var(--primary-color);
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+
+        #about p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        #about a {
+            color: var(--secondary-color);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #about a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* Input e Forms */
+        #txt {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 15px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin: 15px 0;
+            transition: border-color 0.3s;
+        }
+
+        #txt:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+
+        /* Buttons */
+        input[type="submit"],
+        input[type="button"] {
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        input[type="submit"] {
+            background-color: var(--secondary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Tutorial Button */
+        .tutorial-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tutorial-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .tutorial-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Tutorial Section */
+        .tutorial-section {
+            background: linear-gradient(135deg, #ecf0f1 0%, #d5dbdb 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+
+        .tutorial-section.active {
+            display: block !important;
+        }
+
+        .tutorial-section h4 {
+            color: var(--primary-color);
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .tutorial-section h4:first-child {
+            margin-top: 0;
+        }
+
+        .tutorial-step {
+            margin: 15px 0;
+            line-height: 1.8;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .tutorial-step strong {
+            color: var(--secondary-color);
+        }
+
+        .tutorial-step ul, .tutorial-step ol {
+            margin-left: 20px;
+        }
+
+        .tutorial-step li {
+            margin-bottom: 8px;
+        }
+
+        /* Seção What we do */
+        #whatwedo {
+            padding: 60px 0;
+            background-color: var(--light-bg);
+        }
+
+        #whatwedo h1 {
+            color: var(--primary-color);
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+
+        #whatwedo p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        #whatwedo a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #whatwedo a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            text-decoration: none;
+        }
+
+        /* Seção Contact */
+        #contact {
+            padding: 60px 0;
+            background-color: white;
+            text-align: center;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        #contact h1 {
+            color: var(--primary-color);
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        #contact p {
+            font-size: 16px;
+            color: #555;
+            margin: 15px 0;
+        }
+
+        #contact a {
+            color: var(--secondary-color);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #contact a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* Back to Top */
+        #back2Top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #back2Top:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            #welcome h1 {
+                font-size: 32px;
+            }
+
+            #about h1, #whatwedo h1, #contact h1 {
+                font-size: 28px;
+            }
+
+            #txt {
+                max-width: 100%;
+            }
+
+            .navbar-brand img {
+                height: 40px;
+            }
+        }
+    </style>
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -27,7 +400,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Bem-vindo</a>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <img src="css/Logo DGPTC.png" alt="SPAI-ICCE Logo">
+                    SPAI-ICCE
+                </a>
             </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -36,10 +412,10 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Google Street View</a>
+                        <a class="page-scroll" href="#about">Street View Tool</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#whatwedo">Razão cruzada</a>
+                        <a class="page-scroll" href="#whatwedo">Verificação de excesso de Velocidade</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contato</a>
@@ -48,15 +424,16 @@
             </div>	<!-- .navbar-collapse -->
         </div>		<!-- .container -->
     </nav>
+    
     <!-- Welcome   -->
     <section id="welcome" class="welcome-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Bem-vindo</h1>                
-                    <p>Esta é uma página para divulgação, eventualmente trará mais instruções. Entre em contato se quiser ajuda ou colaborar. </p>
-                    <p>A ferramenta do Google Street View não foi projetada para celulares. Atualize usando Ctrl+F5 para garantir a última versão.</p>
-                    <p>Abrindo a ferramenta de desenvolvimento do seu navegador você será capaz de visualizar, copiar o código e trabalhar nele.</p>
+                    <p>Ferramenta de análise de Street View para mediçõeos remotas e callibração de imagens.</p>                    
+                    <p>A ferramenta do Google Street View não foi projetada para sistemas Android ou iOS. Atualize usando Ctrl+F5 para garantir a última versão.</p>
+                    <p>O projeto está disponível em: <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool" target="_blank" rel="nofollow">GitHub - SPAI-ICCE-RJ</a></p>
                 </div>
             </div>
         </div>
@@ -67,15 +444,69 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Google Street View</h1>
-                    <p>Insira sua <a href="https://developers.google.com/maps/premium/apikey/street-view-static-apikey?hl=pt-br" target="_blank" rel="nofollow">chave</a> do Google Maps abaixo e escolha o modelo:</p>
-         <input type="text" id="txt">
-        <form action="Street.html" method="get">
-            <input type="submit" value="Entrar" onclick="passvalues();"/>
-        </form>
-        <!--form action="ModeloII.html" method="get">
-            <input type="submit" value="ModeloII" onclick="passvalues();"/>
-                </form-->
+                    <h1>Street View Tool</h1>
+                    <p>Insira sua <a href="https://developers.google.com/maps/premium/apikey/street-view-static-apikey?hl=pt-br" target="_blank" rel="nofollow">chave da API Google Maps</a>. Caso não insira uma chave própria, o acesso será limitado pelos disponíveis na chave pública do autor.</p>
+            
+                    <input type="text" id="txt" placeholder="Cole sua chave da API ou deixe em branco para usar a padrão">
+                    
+                    <form action="Street.html" method="get">
+                     <input type="submit" value="Entrar na Ferramenta" onclick="passvalues();"/>
+                     </form>
+
+                    <input type="button" id="tutorial-btn" class="tutorial-btn" value="Ver Tutorial sobre a ferramenta" onclick="toggleTutorial();">
+                    
+                    <!-- Tutorial Content -->
+                    <div id="tutorial-content" class="tutorial-section">
+                        <h4>Como usar a ferramenta Street View</h4>
+                        
+                        <div class="tutorial-step">
+                            <strong>Passo 1: Buscar um local</strong>
+                            <p>Após acessar a ferramenta, use a barra de busca no topo para procurar por um endereço ou localização específica.</p>
+                        </div>
+
+                        <div class="tutorial-step">
+                            <strong>Passo 2: Ferramentas disponíveis</strong>
+                            <ul>
+                                <li><strong>Régua:</strong> Mede distâncias e alturas no plano da imagem. Clique e arraste para medir.</li>
+                                <li><strong>Voltar/Avançar data:</strong> Navegue entre diferentes datas do Street View.</li>
+                                <li><strong>Uma/Duas telas:</strong> Compare imagens de diferentes fontes ou datas.</li>
+                                <li><strong>Carregar imagem:</strong> Carregue uma foto local para análise.</li>
+                                <li><strong>Carregar dados:</strong> Importe dados salvos anteriormente.</li>
+                            </ul>
+                        </div>
+
+                        <div class="tutorial-step">
+                            <strong>Passo 3: Calibração (IMPORTANTE)</strong>
+                            <p>A calibração converte medidas de pixels em medidas reais:</p>
+                            <ol>
+                                <li>Identifique um objeto de <strong>tamanho conhecido</strong> (ex: marca de trânsito, poste)</li>
+                                <li>Clique em "Calibrar SV" ou "Calibrar imagem"</li>
+                                <li>Use a régua para medir o objeto na imagem</li>
+                                <li>Insira o tamanho real em <strong>centímetros</strong></li>
+                            </ol>
+                        </div>
+
+                        <div class="tutorial-step">
+                            <strong>Passo 4: Realizar medições</strong>
+                            <p>Com a ferramenta calibrada, use a régua para medir os objetos de interesse. Todos os pontos são registrados automaticamente.</p>
+                        </div>
+
+                        <div class="tutorial-step">
+                            <strong>Passo 5: Baixar dados</strong>
+                            <p>Quando você trabalha com uma <strong>imagem carregada</strong> e usa <strong>"Calibrar imagem"</strong> para marcar pontos de calibração, esses pontos são registrados. Clique em <strong>"Baixar dados"</strong> para salvar um arquivo <code>dados.txt</code> com todas os seus pontos no mundo real. Este arquivo pode ser usado no script <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow"> Camera.py</a> para calibrar uma câmera e estimar a altura de um indivíiduo, cuja LR da evidência pode ser calculada por meio do scritp <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow">heightLR.py</a> .</p>
+                            <p><em>Nota: A régua é apenas para medir na tela - não salva pontos automaticamente. Os pontos são salvos quando você usa "Calibrar imagem" com uma imagem carregada.</em></p>
+                        </div>
+
+                        <div class="tutorial-step">
+                            <strong>💡 Dicas importantes:</strong>
+                            <ul>
+                                <li>Use objetos com tamanho padronizado para calibração (sinais de trânsito, linhas de estrada)</li>
+                                <li>A ferramenta não funciona bem em celulares</li>
+                                <li>Atualize a página com Ctrl+F5 para garantir a última versão</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Fim Tutorial -->        
                 </div>
             </div>
         </div>
@@ -86,8 +517,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Razão cruzada</h1>
-                   <p> <a href="https://docs.google.com/spreadsheets/d/1n0Jfrt46ySZ7giKlwUJrvp73FgYi-JruADIqCohfmsc/edit?usp=sharing" target="_blank" rel="nofollow">Planilha</a>. </p>
+                    <h1>Verificação de excesso de velocidade com LLR</h1>
+                    <p>A tabela abaixo auxilia no cálculo de velocidade, tanto pela projeção reversa com dados obtidos na ferramenta acima, quanto pelo método da razão cruzada.</p>
+                    <p>O cálculo de LR, mais especificamente do seu logarítmo, é feito traçando hipóteses de intervalos de excesso de velocidade dados pelo CTB.</p>
+                    <a href="https://docs.google.com/spreadsheets/d/1n0Jfrt46ySZ7giKlwUJrvp73FgYi-JruADIqCohfmsc/edit?usp=sharing" target="_blank" rel="nofollow">Acessar Planilha de Cálculo</a>
             </div>
         </div>
     </section>
@@ -98,14 +531,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Contato</h1>
+                    <p>E-mail: <a href="mailto:spai.icce@gmail.com">spai.icce@gmail.com</a></p>
                 </div>
-                   <p> E-mail: <a href="spai.icce@gmail.com" target="_blank" rel="nofollow">spai.icce@gmail.com</a>. </p>
             </div>
         </div>
     </section>
-	
-	<a id="back2Top" title="Back to top" href="#">&#10148;</a>
-	
+    
+    <a id="back2Top" title="Back to top" href="#">&#10148;</a>
+    
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 

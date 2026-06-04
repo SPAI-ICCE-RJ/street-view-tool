@@ -126,7 +126,7 @@ adcElementoP = function () {
     divNova.style.top = "50%"
     divNova.style.left = "50%"
     divNova.style.zIndex = "10";
-    divNova.style.fontSize = popupOriginal.document.getElementById("image-original").children.image.height / 100 + "px"
+    divNova.style.fontSize = Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight)) + "px"
     divNova.style.color = "red"
     divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
 
@@ -312,6 +312,17 @@ adcElementoC = function () {
                 if (numbL > 0) {
                     Name = NameQ + "C" + String(2 * (Number(numbL) - 1) + jj)
                     Panorama.__gm.panes.overlayLayer.children[Name].remove();
+                    if (rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "B"] &&
+                        rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + pPanorama.getPano() + "B"]) {
+                        rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "A"].cPosition =
+                         cartesian(rPanorama.position.lat(), rPanorama.position.lng());
+                        rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "B"].cPosition = 
+                         cartesian(rPanorama.position.lat(), rPanorama.position.lng());
+                        rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + pPanorama.getPano() + "A"].cPosition = 
+                         cartesian(pPanorama.position.lat(), pPanorama.position.lng());
+                        rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + pPanorama.getPano() + "B"].cPosition = 
+                         cartesian(pPanorama.position.lat(), pPanorama.position.lng());
+                    }
                 }
             } else {
 
@@ -319,6 +330,7 @@ adcElementoC = function () {
                 Name = NameQ + "C" + String(2 * Number(numbL) + jj)
                 var divNova = document.createElement("i");
                 divNova.id = Name
+                divNova.IDs = rul;
                 divNova.style.position = "absolute"
                 divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
                 divNova.style.left = ((SVO.panWidth - SVO.markerWidth) / 2 - 50 + jj * 100) + "px"

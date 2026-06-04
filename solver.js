@@ -31,13 +31,16 @@ function solverH(child) {
         for (var i = 0; i < child.length / 2; ++i) {
             if (child[2 * i].id.split("&").length == 1) {
 
-                var resultThisDatum1 = funcao1([params[0], params[1]], child[2 * i].sheading, child[2 * i].cPosition);
-                var resultThisDatum2 = funcao2([params[2], params[3]], child[2 * i + 1].sheading, child[2 * i + 1].cPosition);
+                var resultThisDatum1 = funcao1([params[0], params[1]], child[2 * i].sheading, child[2 * i].cPosition)/(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+
+                Math.pow(params[1]-child[2 * i].cPosition[1], 2));
+                var resultThisDatum2 = funcao2([params[2], params[3]], child[2 * i + 1].sheading, child[2 * i + 1].cPosition)/(Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+
+                Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));
                 var resultThisDatum3 = funcao3([params[2], params[3]], child[2 * i + 1].spitch, child[2 * i + 1].sheading, child[2 * i + 1].cPosition)
                     - funcao3([params[0], params[1]], child[2 * i].spitch, child[2 * i].sheading, child[2 * i].cPosition)
-                resultThisDatum3 = Math.pow(params[4] - resultThisDatum3, 2);
+                resultThisDatum3 = Math.pow(params[4] - resultThisDatum3, 2)/(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+
+                Math.pow(params[1]-child[2 * i].cPosition[1], 2)+Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));;
 
-                var delta = resultThisDatum1 + resultThisDatum2 + 2 * (resultThisDatum3)
+                var delta = resultThisDatum1 + resultThisDatum2 + 4 * (resultThisDatum3)
 
                 total += delta
             }
@@ -64,7 +67,7 @@ function solverH(child) {
                     - funcao3([mini[0] + params[0], mini[1] + params[1]], child[2 * i].spitch, child[2 * i].sheading, child[2 * i].cPosition)
 
                 resultThisDatum3 = Math.pow(mini[4] - resultThisDatum3, 2);
-                var delta = resultThisDatum1 + resultThisDatum2 + 2 * (resultThisDatum3);
+                var delta = resultThisDatum1 + resultThisDatum2 + 4 * (resultThisDatum3);
                 total += delta
                 return total;
             };
@@ -102,7 +105,7 @@ function solverH(child) {
     var larg = Math.sqrt(Math.pow((mini[0] - mini[2]), 2) + Math.pow((mini[3] - mini[1]), 2))
     var diag = Math.sqrt(Math.pow(resl, 2) + Math.pow(larg, 2));
 
-    var sol = [100 * resl, 100 * (TtoZ[N - 2] * sigmaH1 + sigmaH2) / Math.sqrt(N-1), 100 * larg, 100 * (TtoZ[N - 2] * sigmaD + sigmaH2) / Math.sqrt(N-1), 100 * diag]
+    var sol = [100 * resl, 100 * (TtoZ[N - 2] * sigmaH1 + sigmaH2) / Math.sqrt(N - 1), 100 * larg, 100 * (TtoZ[N - 2] * sigmaD + sigmaH2) / Math.sqrt(N - 1), 100 * diag]
     sol.push(Math.sqrt(Math.pow(sol[1] * sol[0] / sol[4], 2) + Math.pow(sol[3] * sol[2] / sol[4], 2)))
     return sol
 }
@@ -114,11 +117,11 @@ function solverP() {
     };
 
     var contC = countElementsByIdPrefix(document, [rPanorama.getPano() + "&" + pPanorama.getPano()])
-    var contP = countElementsByIdPrefix(popupOriginal.document, combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()))
-    
+    var contP = popupOriginal.document.getElementById("image-original").children.length-1
+
     var objective = function (params) {
         var total = 0.0;
-        var cont = 0  
+        var cont = 0
 
         var C1i = cartesian(rPanorama.position.lat(), rPanorama.position.lng())
         var C2i = cartesian(pPanorama.position.lat(), pPanorama.position.lng())
@@ -126,11 +129,13 @@ function solverP() {
         var v = subtract(C2i, C1i);
         var pv = [v[0], v[1], 0]
 
-        if (window._marcadoresPLinhasCount > 0 || contC>0) {
+        if (window._marcadoresPLinhasCount > 0 || contC > 0) {
             pv = scale(pv, 1 / norm(pv, pv));
         } else {
             pv = [0, 0, 0];
         }
+
+
 
         v = [-v[1], v[0], 0]
 
@@ -140,8 +145,10 @@ function solverP() {
             var nv = [0, 0, 0];
         }
 
+
         C1 = [C1i[0] + params[0] * pv[0], C1i[1] + params[0] * pv[1], 0];
         C2 = [C2i[0] + nv[0] * params[1], C2i[1] + nv[1] * params[1], params[2]];
+
 
         for (let kk = 0; kk < contP; kk++) {
             if (popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)]) {
@@ -155,7 +162,7 @@ function solverP() {
 
                 var resultThisDatum = computeShortestSegment(C1, v1, C2, v2);
                 if (cont + 1 > parseInt(document.querySelector('#input-points input').value) + 1) {
-                    total += resultThisDatum.distance;
+                    total += Math.pow(resultThisDatum.distance/(norm(subtract(C1, resultThisDatum.midpoint))+norm(subtract(C2, resultThisDatum.midpoint))),2);
 
                 }
                 popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)].Point = resultThisDatum.midpoint;
@@ -178,30 +185,37 @@ function solverP() {
                     var I2 = popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + par[1]].Point
                     var distance = norm(subtract(I1, I2));
                     var reference = parseFloat(popupOriginal.document.all[kk + 2].value) / 100;
+
                     total += Math.pow((distance - reference), 2);
                 }
             }
         }
 
         for (let kk = 0; kk < contC; kk++) {
-            if (rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + kk] &&
-                pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + kk]) {
+            if (rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk)] &&
+                pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk)]) {
 
-                var child1 = rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + kk];
-                var child2 = pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + kk];
+                var child1 = rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk)];
+                var child2 = pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk)];
 
                 var v1 = [Math.cos(child1.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - child1.sheading) * Math.PI / 180), Math.cos(child1.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - child1.sheading) * Math.PI / 180), Math.sin(child1.spitch * Math.PI / 180)];
                 var v2 = [Math.cos(child2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - child2.sheading) * Math.PI / 180), Math.cos(child2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - child2.sheading) * Math.PI / 180), Math.sin(child2.spitch * Math.PI / 180)];
 
                 var resultThisDatum = computeShortestSegment(C1, v1, C2, v2);
-                
+
                 if (kk % 2 === 0) {
                     var I1 = resultThisDatum.midpoint;
+                    total += resultThisDatum.distance;
                 } else {
                     var I2 = resultThisDatum.midpoint;
                     var distance = norm(subtract(I1, I2));
                     var reference = parseFloat(child1.reference) / 100;
-                    total += Math.pow((distance - reference), 2);
+                    rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk-1)].innerText=
+                    rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
+                    pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].innerText=
+                    pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
+                    total += Math.pow(resultThisDatum.distance/(norm(subtract(C1, I2))+norm(subtract(C2, I2))),2);
+                    total += 4*Math.pow((distance - reference)/(norm(subtract(C1, I2))+norm(subtract(C2, I2))), 2);
                 }
             }
         }
@@ -214,32 +228,34 @@ function solverP() {
     dados = [];
 
     for (kk = 0; kk < contP; kk++) {
-        NameQ = popupOriginal.document.getElementById("image-original").children[kk + 1].IDz;
-        numb = countElementsByIdPrefix(popupOriginal.document, NameQ);
+        if (popupOriginal.document.getElementById("image-original").children[kk + 1].Point!= undefined) {
+            NameQ = popupOriginal.document.getElementById("image-original").children[kk + 1].IDz;
+            numb = countElementsByIdPrefix(popupOriginal.document, NameQ);
 
-        pano = popupOriginal.document.getElementById("image-original").children[kk + 1].IDz.split("&");
+            pano = popupOriginal.document.getElementById("image-original").children[kk + 1].IDz.split("&");
 
-        var loc = popupOriginal.document.getElementById("image-original").children[kk + 1].Point
-        var uu = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.left) + SVO.markerWidth / 4 - 1
-        var vv = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.top) + SVO.markerWidth / 4 - 1
+            var loc = popupOriginal.document.getElementById("image-original").children[kk + 1].Point
+            var uu = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.left) + Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2
+            var vv = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.top) + Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2
 
-        if (rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)]) {
-            var sh1 = rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].sheading;
-            var sp1 = rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].spitch;
-        } else {
-            var sh1 = pPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].sheading;
-            var sp1 = pPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].spitch;
+            if (rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)]) {
+                var sh1 = rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].sheading;
+                var sp1 = rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].spitch;
+            } else {
+                var sh1 = pPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].sheading;
+                var sp1 = pPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].spitch;
+            }
+
+            if (rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)]) {
+                var sh2 = rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].sheading;
+                var sp2 = rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].spitch;
+            } else {
+                var sh2 = pPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].sheading;
+                var sp2 = pPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].spitch;
+            }
+
+            dados = dados + popupOriginal.document.getElementById("image-original").children[kk + 1].IDz + ";" + loc[0] + ";" + loc[1] + ";" + loc[2] + ";" + uu + ";" + vv + ";" + popupOriginal.document.getElementById("image-original").children[kk + 1].err + ";" + sh1 + ";" + sh2 + ";" + sp1 + ";" + sp2 + "\r\n";
         }
-
-        if (rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)]) {
-            var sh2 = rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].sheading;
-            var sp2 = rPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].spitch;
-        } else {
-            var sh2 = pPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].sheading;
-            var sp2 = pPanorama.__gm.panes.overlayLayer.children[pano[1] + "P" + String(kk)].spitch;
-        }
-
-        dados = dados + popupOriginal.document.getElementById("image-original").children[kk + 1].IDz + ";" + loc[0] + ";" + loc[1] + ";" + loc[2] + ";" + uu + ";" + vv + ";" + popupOriginal.document.getElementById("image-original").children[kk + 1].err + ";" + sh1 + ";" + sh2 + ";" + sp1 + ";" + sp2 + "\r\n";
     }
     return sol
 }
@@ -266,21 +282,21 @@ function solverC() {
                 var nv = [0, 0, 0];
             }
 
-            C1 = [C1i[0] + params[0] * pv[0], C1i[1] + params[0] * pv[1], 0];
-            C2 = [C2i[0] + nv[0] * params[1], C2i[1] + nv[1] * params[1], params[2]];
+            C1 = [C1i[0] , C1i[1] , 0];
+            C2 = [C2i[0] +  params[0], C2i[1] + params[1], params[2]];
 
             for (let kk = 0; kk < cont; kk++) {
-                if (rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + kk] &&
-                    pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + kk]) {
+                if (rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk)] &&
+                    pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk)]) {
 
-                    var child1 = rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + kk];
-                    var child2 = pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + kk];
+                    var child1 = rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk)];
+                    var child2 = pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk)];
 
                     var v1 = [Math.cos(child1.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - child1.sheading) * Math.PI / 180), Math.cos(child1.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - child1.sheading) * Math.PI / 180), Math.sin(child1.spitch * Math.PI / 180)];
                     var v2 = [Math.cos(child2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - child2.sheading) * Math.PI / 180), Math.cos(child2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - child2.sheading) * Math.PI / 180), Math.sin(child2.spitch * Math.PI / 180)];
 
                     var resultThisDatum = computeShortestSegment(C1, v1, C2, v2);
-                    total += resultThisDatum.distance;
+                    total += Math.pow(resultThisDatum.distance/(norm(subtract(C1, resultThisDatum.midpoint))+norm(subtract(C2, resultThisDatum.midpoint))), 2);
 
 
                     if (kk % 2 === 0) {
@@ -288,8 +304,12 @@ function solverC() {
                     } else {
                         var I2 = resultThisDatum.midpoint;
                         var distance = norm(subtract(I1, I2));
+                        rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk-1)].innerText=
+                        rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
+                        pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].innerText=
+                        pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
                         var reference = parseFloat(child1.reference) / 100;
-                        total += Math.pow((distance - reference), 2);
+                        total += Math.pow((distance - reference)/(norm(subtract(C1, I2))+norm(subtract(C2, I2))), 2);
                     }
                     if (rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "B"] &&
                         rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + pPanorama.getPano() + "B"]) {
@@ -314,13 +334,13 @@ function solverC() {
                 var vA2 = [Math.cos(childA2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childA2.sheading) * Math.PI / 180), Math.cos(childA2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childA2.sheading) * Math.PI / 180), Math.sin(childA2.spitch * Math.PI / 180)];
 
                 var resultThisDatum = computeShortestSegment(C1, vA1, C2, vA2);
-                total += resultThisDatum.distance;
+                total += Math.pow(resultThisDatum.distance/2, 2)  ;
 
                 var vB1 = [Math.cos(childB1.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childB1.sheading) * Math.PI / 180), Math.cos(childB1.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childB1.sheading) * Math.PI / 180), Math.sin(childB1.spitch * Math.PI / 180)];
                 var vB2 = [Math.cos(childB2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childB2.sheading) * Math.PI / 180), Math.cos(childB2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childB2.sheading) * Math.PI / 180), Math.sin(childB2.spitch * Math.PI / 180)];
 
                 var resultThisDatum = computeShortestSegment(C1, vB1, C2, vB2);
-                total += resultThisDatum.distance;
+                total += Math.pow(resultThisDatum.distance/2, 2);
 
                 rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "A"].cPosition = C1;
                 rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "B"].cPosition = C1;

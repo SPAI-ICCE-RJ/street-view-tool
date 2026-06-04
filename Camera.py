@@ -9,7 +9,9 @@ import os
 caso="ICCE"
 
 # Defina o número de pontos iniciais que serão excluídos para a calibração
-n_heights = 1
+n_heights = 2
+
+n_out=0
 
 # Defina o valor do padding desejado 
 padding_x,padding_y = 100,100
@@ -32,7 +34,7 @@ use_tilted_model      = False
 # -----------------------------------------------------------
 # 🔹 COEFICIENTES A FIXAR
 # -----------------------------------------------------------
-fix_p1_p2             = True
+fix_p1_p2             = False
 fix_k1                = False
 fix_k2                = False
 fix_k3                = False
@@ -104,7 +106,7 @@ current_win_height = 0
 # Input: valor desejado da PDF da t-Student
 y_target = 1e-5  # Exemplo: defina o valor que desejar
 
-n_values = np.arange(1, 50)  # n de 2 a 31
+n_values = np.arange(4, 50)  # n de 2 a 31
 k_values = []
 
 for n in n_values:
@@ -132,7 +134,6 @@ for n in n_values:
         k_values.append(sol_k.root)
     except ValueError:
         k_values.append(np.nan)
-print("k_values:", k_values)
  
 # Função para ler o arquivo e agrupar os pontos pela id (primeira coluna)
 def ler_dados_txt_multi(filepath):
@@ -334,7 +335,7 @@ os.makedirs(f'Python/{caso}/Results/Seq2', exist_ok=True)
 os.makedirs(f'Python/{caso}/Results/Seq3', exist_ok=True) 
 
 # Ler os pontos do arquivo e agrupar por id
-object_points_dict, image_points_dict, extra_data_dict = ler_dados_txt_multi(f"Python/{caso}/dados.txt")
+object_points_dict, image_points_dict, extra_data_dict = ler_dados_txt_multi(f"Python/{caso}/dados1.txt")
 
 idn=0
 
@@ -346,13 +347,13 @@ for id_val in object_points_dict:
     image_points = np.array(image_points_dict[id_val][:], dtype=np.float32)
     extra_data = np.array(extra_data_dict[id_val][:], dtype=np.float32)
 
-    if object_points.shape[0] - n_heights < 4:
+    if object_points.shape[0] - n_out < 4:
         print(f"Ignorando id {id_val}: número de pontos ({object_points.shape[0]}) insuficiente após exclusão.")
         continue
  
     # Use os pontos a partir de index n_heights para a calibração  
-    object_points_calib = object_points[n_heights:]
-    image_points_calib = image_points[n_heights:]
+    object_points_calib = object_points[n_out:]
+    image_points_calib = image_points[n_out:]
     
 
     # Calibração com os pontos restantes

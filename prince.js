@@ -1058,8 +1058,8 @@ function LoadFile(pontos) {
         });
         //sleep(1000)
         adcElementoP()
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.left = pontos[q][5] - SVO.markerWidth / 4 + 1 + "px"
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.top = pontos[q][6] - SVO.markerWidth / 4 + 1 + "px"
+        popupOriginal.document.getElementById("image-original").children[q + 1].style.left = pontos[q][5] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight))/2 + "px"
+        popupOriginal.document.getElementById("image-original").children[q + 1].style.top = pontos[q][6] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight))/2  +"px"
 
     }
     rPanorama.setVisible(true)
@@ -1084,7 +1084,7 @@ function cartesian(lat2, lon2) {
     var y = R * c * 1000 * Math.sign(dLat);
     var d = distance(lat1, lon1, lat2, lon2)
     //x= (x && x/Math.abs(x))*Math.sqrt(Math.pow(d,2)-Math.pow(y,2))  
-    return [x, y];
+    return [x , y];
 }
 
 function distanceC(point1, point2, Cal) {
