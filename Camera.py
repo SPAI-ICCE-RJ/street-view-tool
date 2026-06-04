@@ -8,8 +8,12 @@ import os
 
 caso="ICCE"
 
+dados="dados"
+
+# Defina o número altura medidas, sem incluir a referência
+n_heights = 1
+
 # Defina o número de pontos iniciais que serão excluídos para a calibração
-n_heights = 2
 
 n_out=0
 
@@ -46,7 +50,7 @@ fix_k6                = False
 # 🔹 INTRÍNSECOS / OUTROS
 # -----------------------------------------------------------
 fix_aspect_ratio      = False
-fix_principal_point   = True
+fix_principal_point   = False
 fix_focal_length      = False
 
 # ===========================================================
@@ -317,7 +321,7 @@ def calcular_altura_iterativa(camera_matrix, dist_coeffs, rvec, tvec, base_mundo
 # INÍCIO DO PROCESSAMENTO
 
 # Carregar uma única imagem (usada para todos os ids) 
-image = cv2.imread(f'Python/{caso}/Questionado.png')
+image = cv2.imread(f'Casos/{caso}/Questionado.png')
 
 if image is None:
     raise ValueError("Erro ao carregar a imagem.")
@@ -325,17 +329,17 @@ print("Imagem carregada com sucesso! Dimensões:", image.shape)
 image_size = (image.shape[1], image.shape[0])
 
 # Carregar Referência (usada para todos os ids) 
-imageRef = cv2.imread(f'Python/{caso}/Referencia.png')
+imageRef = cv2.imread(f'Casos/{caso}/Referencia.png')
 if imageRef is None:
     raise ValueError("Erro ao carregar a imagem.")
 print("Imagem carregada com sucesso! Dimensões:") 
 
-os.makedirs(f'Python/{caso}/Results/Seq1', exist_ok=True)
-os.makedirs(f'Python/{caso}/Results/Seq2', exist_ok=True)
-os.makedirs(f'Python/{caso}/Results/Seq3', exist_ok=True) 
+os.makedirs(f'Casos/{caso}/Results/Seq1', exist_ok=True)
+os.makedirs(f'Casos/{caso}/Results/Seq2', exist_ok=True)
+os.makedirs(f'Casos/{caso}/Results/Seq3', exist_ok=True) 
 
 # Ler os pontos do arquivo e agrupar por id
-object_points_dict, image_points_dict, extra_data_dict = ler_dados_txt_multi(f"Python/{caso}/dados1.txt")
+object_points_dict, image_points_dict, extra_data_dict = ler_dados_txt_multi(f"Casos/{caso}/{dados}.txt")
 
 idn=0
 
@@ -448,7 +452,7 @@ for id_val in object_points_dict:
         cv2.imshow(window_name, view)
         if cv2.waitKey(10) != -1:
             break
-    cv2.imwrite(f"Python/{caso}/Results/Seq1/frame{idn}.jpg", view)
+    cv2.imwrite(f"Casos/{caso}/Results/Seq1/frame{idn}.jpg", view)
 
     img_questionada = image.copy()
     for idx in range(0, n_heights):
@@ -665,7 +669,7 @@ for id_val in object_points_dict:
     cv2.namedWindow(window_corrigida, cv2.WINDOW_NORMAL)
     cv2.imshow(window_corrigida, img_to_show)
     cv2.waitKey(0)
-    cv2.imwrite(f"Python/{caso}/Results/Seq2/frame{idn}.jpg",  img_to_show)
+    cv2.imwrite(f"Casos/{caso}/Results/Seq2/frame{idn}.jpg",  img_to_show)
 
     cv2.destroyWindow(window_corrigida)
 
@@ -674,7 +678,7 @@ for id_val in object_points_dict:
     cv2.imshow(window_corrigida, imgRef_to_show)
     cv2.waitKey(0)
     cv2.destroyWindow(window_corrigida)
-    cv2.imwrite(f"Python/{caso}/Results/Seq3/frame{idn}.jpg",  imgRef_to_show)
+    cv2.imwrite(f"Casos/{caso}/Results/Seq3/frame{idn}.jpg",  imgRef_to_show)
     idn += 1
   # imagem undistort já disponível
 

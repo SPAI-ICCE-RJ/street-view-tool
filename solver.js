@@ -31,14 +31,14 @@ function solverH(child) {
         for (var i = 0; i < child.length / 2; ++i) {
             if (child[2 * i].id.split("&").length == 1) {
 
-                var resultThisDatum1 = funcao1([params[0], params[1]], child[2 * i].sheading, child[2 * i].cPosition)/(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+
-                Math.pow(params[1]-child[2 * i].cPosition[1], 2));
-                var resultThisDatum2 = funcao2([params[2], params[3]], child[2 * i + 1].sheading, child[2 * i + 1].cPosition)/(Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+
-                Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));
+                var resultThisDatum1 = funcao1([params[0], params[1]], child[2 * i].sheading, child[2 * i].cPosition)
+                //(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+ Math.pow(params[1]-child[2 * i].cPosition[1], 2));
+                var resultThisDatum2 = funcao2([params[2], params[3]], child[2 * i + 1].sheading, child[2 * i + 1].cPosition)
+                //(Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+ Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));
                 var resultThisDatum3 = funcao3([params[2], params[3]], child[2 * i + 1].spitch, child[2 * i + 1].sheading, child[2 * i + 1].cPosition)
                     - funcao3([params[0], params[1]], child[2 * i].spitch, child[2 * i].sheading, child[2 * i].cPosition)
-                resultThisDatum3 = Math.pow(params[4] - resultThisDatum3, 2)/(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+
-                Math.pow(params[1]-child[2 * i].cPosition[1], 2)+Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));;
+                resultThisDatum3 = Math.pow(params[4] - resultThisDatum3, 2)
+                //(Math.pow(params[0]-child[2 * i].cPosition[0], 2)+Math.pow(params[1]-child[2 * i].cPosition[1], 2)+Math.pow(params[2]-child[2 * i + 1].cPosition[0], 2)+Math.pow(params[3]-child[2 * i + 1].cPosition[1], 2));;
 
                 var delta = resultThisDatum1 + resultThisDatum2 + 4 * (resultThisDatum3)
 
@@ -162,7 +162,7 @@ function solverP() {
 
                 var resultThisDatum = computeShortestSegment(C1, v1, C2, v2);
                 if (cont + 1 > parseInt(document.querySelector('#input-points input').value) + 1) {
-                    total += Math.pow(resultThisDatum.distance/(norm(subtract(C1, resultThisDatum.midpoint))+norm(subtract(C2, resultThisDatum.midpoint))),2);
+                    total += Math.pow(resultThisDatum.distance,2);
 
                 }
                 popupOriginal.document.all[combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) + "Q" + String(kk)].Point = resultThisDatum.midpoint;
@@ -214,8 +214,8 @@ function solverP() {
                     rPanorama.__gm.panes.overlayLayer.children[rPanorama.getPano() + "&" + pPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
                     pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].innerText=
                     pPanorama.__gm.panes.overlayLayer.children[pPanorama.getPano() + "&" + rPanorama.getPano() + "C" + String(kk-1)].IDs+" ("+100*distance.toFixed(2)+")";
-                    total += Math.pow(resultThisDatum.distance/(norm(subtract(C1, I2))+norm(subtract(C2, I2))),2);
-                    total += 4*Math.pow((distance - reference)/(norm(subtract(C1, I2))+norm(subtract(C2, I2))), 2);
+                    total += Math.pow(resultThisDatum.distance,2);
+                    total += Math.pow((distance - reference), 2);
                 }
             }
         }
@@ -334,13 +334,13 @@ function solverC() {
                 var vA2 = [Math.cos(childA2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childA2.sheading) * Math.PI / 180), Math.cos(childA2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childA2.sheading) * Math.PI / 180), Math.sin(childA2.spitch * Math.PI / 180)];
 
                 var resultThisDatum = computeShortestSegment(C1, vA1, C2, vA2);
-                total += Math.pow(resultThisDatum.distance/2, 2)  ;
+                total += Math.pow(resultThisDatum.distance/norm(subtract(C1, resultThisDatum.midpoint)), 2)  ;
 
                 var vB1 = [Math.cos(childB1.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childB1.sheading) * Math.PI / 180), Math.cos(childB1.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childB1.sheading) * Math.PI / 180), Math.sin(childB1.spitch * Math.PI / 180)];
                 var vB2 = [Math.cos(childB2.spitch * Math.PI / 180) * Math.cos(normalizeAngle(90 - childB2.sheading) * Math.PI / 180), Math.cos(childB2.spitch * Math.PI / 180) * Math.sin(normalizeAngle(90 - childB2.sheading) * Math.PI / 180), Math.sin(childB2.spitch * Math.PI / 180)];
 
                 var resultThisDatum = computeShortestSegment(C1, vB1, C2, vB2);
-                total += Math.pow(resultThisDatum.distance/2, 2);
+                total += Math.pow(resultThisDatum.distance/norm(subtract(C2, resultThisDatum.midpoint)), 2);
 
                 rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "A"].cPosition = C1;
                 rPanorama.__gm.panes.overlayLayer.children[JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) + rPanorama.getPano() + "B"].cPosition = C1;
