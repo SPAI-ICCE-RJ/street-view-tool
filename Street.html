@@ -18,7 +18,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
     <script type="text/javascript" src="prince.js"></script>
     <script type="text/javascript" src="solver.js"></script>
-    <script type="text/javascript" src="markers.js"></script>
     <script type="text/javascript" src="markerz.js"></script>
 
 </head>
@@ -33,7 +32,8 @@
         <input type="submit" value="Avançar data" onclick="toggleUp();">
     </div>
     <div id="input-pair">
-        <input type="number" id="distance-value" placeholder="Distância (cm)" min="0" step="0.1" lang="en-US" style="width: 100px; padding: 5px; text-align: center;">
+        <input type="number" id="distance-value" placeholder="Distância (cm)" min="0" step="0.1" lang="en-US"
+            style="width: 100px; padding: 5px; text-align: center;">
     </div>
     <div id="floating-pairC">
         <input type="button" value="Calibrar SV" onclick="adcElementoC();">
@@ -45,6 +45,7 @@
     <div id="floating-alternate">
         <input type="button" value="Alternar" onclick="alternate();">
     </div>
+
     <div id="floating-ruler2">
         <input type="button" value="Régua" onclick="adcElemento();">
     </div>
@@ -57,6 +58,12 @@
     <div id="input-points">
         <input type="number" value="0" style="width: 30px; background: #fff;">
     </div>
+
+
+    <!-- A div da cruz estruturada para alinhamento perfeito -->
+    <div id="minha-cruz-guia1">✛</div>
+    <div id="minha-cruz-guia2">✛</div>
+
 
     <div id="rMap"></div>
     <div id="pMap"></div>
@@ -73,6 +80,14 @@
         document.getElementById('file_txt').addEventListener('change', handleFileSelect, false);
     </script>
 
+    <script>
+        if (/Android/i.test(navigator.userAgent)) {
+            ['twoScreens1', 'alternate'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+    </script>
     <script>
 
         let img_input = document.getElementById('input_image');
