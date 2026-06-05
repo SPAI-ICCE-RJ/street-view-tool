@@ -81,13 +81,16 @@
     </script>
 
     <script>
-        if (/Android/i.test(navigator.userAgent)) {
-            ['twoScreens1', 'alternate'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
-        }
+        if (/Android/i.test(navigator.userAgent)) document.body.classList.add('android');
     </script>
+    <style>
+        /* esconder por id ou por classe */
+        body.android #floating-Down,
+        body.android #floating-Up,
+        body.android #floating-pairC {
+            display: none !important;
+        }
+    </style>
     <script>
 
         let img_input = document.getElementById('input_image');
