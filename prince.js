@@ -161,14 +161,17 @@ async function initMap() {
     rPanorama = rMap.getStreetView();
     rPanorama.setOptions({
         disableDefaultUI: true,
-        linksControl: true,
+        linksControl: false,
         panControl: false,
-        clickToGo: false,
+        clickToGo: true,
         enableCloseButton: true,
         imageDateControl: true,
         disableKeyboardShortcuts: true,
         zoomControlOptions: false,
         zoomControl: false,
+        motionTracking: false,
+        motionTrackingControl: false,
+        twoWayTouchControls: false
     });
     rPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-Down'))
     rPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-Up'))
@@ -178,23 +181,28 @@ async function initMap() {
     rPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-ruler2'));
     rPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens1'));
 
+    // 2. Cria o elemento HTML da cruz guia
 
-    //rPanorama.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('file-point'));
+    rPanorama.controls[google.maps.ControlPosition.CENTER].push(document.getElementById("minha-cruz-guia1"));
 
     rPanorama.setVisible(true)
     rPanorama.setVisible(false)
 
     pPanorama = pMap.getStreetView()
     pPanorama.setOptions({
-        linksControl: true,
+        linksControl: false,
         panControl: false,
-        clickToGo: false,
+        clickToGo: true,
         disableDefaultUI: true,
         enableCloseButton: false,
         imageDateControl: true,
         disableDefaultUI: true,
         zoomControlOptions: true,
         zoomOptions: false,
+        motionTracking: false,
+        motionTrackingControl: false,
+        // Opcional: Impede que gestos de toque específicos ativem o movimento do sensor
+        twoWayTouchControls: false
     });
     // pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-point'));
 
@@ -209,6 +217,8 @@ async function initMap() {
     pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-pairC'));
 
     pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('input-pair'));
+
+    pPanorama.controls[google.maps.ControlPosition.CENTER].push(document.getElementById("minha-cruz-guia2"));
 
     //pPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens2'));
 
@@ -398,7 +408,7 @@ function toggleDown() {
     }
     rPanorama.setPano(rPanoramas[ntimes].pano);
 
-    document.getElementsByName('Date')[0].value = Object.values(rPanoramas[ntimes])[1]
+    document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1,8)
     setMapOnAll(null, pCheckPoints)
     data = Data[CheckPano[markerPanoID]]
 
@@ -460,7 +470,7 @@ function toggleUp() {
     }
     rPanorama.setPano(rPanoramas[ntimes].pano);
 
-    document.getElementsByName('Date')[0].value = Object.values(rPanoramas[ntimes])[1]
+    document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 8)
 
     setMapOnAll(null, pCheckPoints)
     data = Data[CheckPano[markerPanoID]]
@@ -754,7 +764,7 @@ function rPanoSetting(data, status) {
         if (Markers[rPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
             setMapOnAll(rMap, Markers[rPanorama.pano].Points);
         }
-        document.getElementsByName('Date')[0].value = Object.values(rPanoramas[ntimes])[1]
+        document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1,8)
 
         if (data.links.length != 0) {
             pPano = Object.values(data.links[0])[2]
@@ -1039,8 +1049,8 @@ function LoadFile(pontos) {
     rPanorama.setVisible(false)
     pPanorama.setVisible(false)
     for (q = 0; q < pontos.length; q++) {
-        sv.getPanoramaById( pontos[q][0], rPanoSetting);
-        sv.getPanoramaById( pontos[q][1] , pPanoSetting);
+        sv.getPanoramaById(pontos[q][0], rPanoSetting);
+        sv.getPanoramaById(pontos[q][1], pPanoSetting);
         if (pontos[q][0] != rPanorama.pano) {
             rPanorama.setPano(pontos[q][0])
         }
@@ -1058,8 +1068,8 @@ function LoadFile(pontos) {
         });
         //sleep(1000)
         adcElementoP()
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.left = pontos[q][5] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight))/2 + "px"
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.top = pontos[q][6] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight))/2  +"px"
+        popupOriginal.document.getElementById("image-original").children[q + 1].style.left = pontos[q][5] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2 + "px"
+        popupOriginal.document.getElementById("image-original").children[q + 1].style.top = pontos[q][6] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2 + "px"
 
     }
     rPanorama.setVisible(true)
@@ -1084,7 +1094,7 @@ function cartesian(lat2, lon2) {
     var y = R * c * 1000 * Math.sign(dLat);
     var d = distance(lat1, lon1, lat2, lon2)
     //x= (x && x/Math.abs(x))*Math.sqrt(Math.pow(d,2)-Math.pow(y,2))  
-    return [x , y];
+    return [x, y];
 }
 
 function distanceC(point1, point2, Cal) {

@@ -63,7 +63,7 @@ html, body {
     position: absolute;
     top: 60px;
     right: 190px;
-    width: 120px;
+    width: 60px;
     z-index: 5;
     background-color: #fff;
     padding: 5px;
@@ -320,3 +320,32 @@ html, body {
   background: white;
   border: 3px solid black;
 }
+
+
+
+  #minha-cruz-guia1, #minha-cruz-guia2 {
+    /* Altere APENAS o tamanho da fonte aqui. O resto se adapta sozinho! */
+    font-size: 20px; 
+    
+    /* Define que o quadrado tem exatamente o mesmo tamanho da fonte */
+    width: 1em;
+    height: 1em;
+    
+    /* Linha de altura idêntica para eliminar distorções de renderização */
+    line-height: 3em;
+    
+    /* Centralização matemática do caractere */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Estilos visuais adicionais */
+    color: #000000;
+    font-weight: bold;
+    -webkit-text-stroke: 0.1px #FFFFFF; 
+
+    pointer-events: none; 
+
+    
+  }
+

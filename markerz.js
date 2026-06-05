@@ -28,7 +28,7 @@ adcElemento = function () {
         divNova.id = Name[ii]
         divNova.style.position = "absolute"
         divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
-        divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
+        divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 +1.25 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
         divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
@@ -592,7 +592,7 @@ m_updateMarker = function (elmnt, l_pov) {
     var proj_x = Sx / Sy;
     var proj_y = Sz / Sy;
 
-    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2;
+    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2+1.25;
     var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
 
     elmnt.style.left = x + "px";
