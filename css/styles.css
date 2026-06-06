@@ -326,20 +326,18 @@ html, body {
 
   #minha-cruz-guia1, #minha-cruz-guia2 {
     /* Altere APENAS o tamanho da fonte aqui. O resto se adapta sozinho! */
-    font-size: 20px; 
+    font-size: 30px; 
     
     /* Define que o quadrado tem exatamente o mesmo tamanho da fonte */
-    width: 1em;
-    height: 1em;
     
     /* Linha de altura idêntica para eliminar distorções de renderização */
-    line-height: 3em;
+    line-height: 1em;
     
     /* Centralização matemática do caractere */
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* Estilos visuais adicionais */
     color: #000000;
     font-weight: bold;
@@ -349,4 +347,10 @@ html, body {
 
     
   }
+
+/* Desloca o elemento minha-cruz-guia1 em 1px horizontal e 1px vertical */
+#minha-cruz-guia1 {
+    transform: translate(-0.5px, -0.5px);
+    will-change: transform;
+}
 

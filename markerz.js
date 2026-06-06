@@ -13,8 +13,8 @@ adcElemento = function () {
 
         SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
         SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-        SVO.markerWidth = 18;
-        SVO.markerHeight = 18;
+        SVO.markerWidth = 18    ;
+        SVO.markerHeight = SVO.markerWidth;
 
         if (Panorama.__gm.panes.overlayLayer.children[Name[0]] == undefined) {
             ii = 0
@@ -27,12 +27,12 @@ adcElemento = function () {
         var divNova = document.createElement("i");
         divNova.id = Name[ii]
         divNova.style.position = "absolute"
-        divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
-        divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 +1.25 + "px"
+        divNova.style.top = SVO.panHeight/2 - SVO.markerHeight/1.9 +"px"
+        divNova.style.left = SVO.panWidth/2 - SVO.markerWidth/2.2  + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
         divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
-
+        divNova.style.fontWeight = "bold"
 
         divNova.sheading = Panorama.getPov().heading;
         divNova.spitch = Panorama.getPov().pitch;
@@ -91,7 +91,7 @@ adcElemento = function () {
             if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
                 rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
 
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n Altura: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n Afastamento: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n Distância: ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
+                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n z: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n r: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n √(z²+r²): ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
             }
         }
     }
@@ -129,6 +129,7 @@ adcElementoP = function () {
     divNova.style.fontSize = Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight)) + "px"
     divNova.style.color = "red"
     divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+    divNova.style.fontWeight = "bold"
 
     divNova.classList.add('fa', 'fa-dot-circle-o', 'marker')
     divNova.onclick = function () {
@@ -174,8 +175,8 @@ adcElementoP = function () {
         var divNova = document.createElement("i");
         divNova.id = Name
         divNova.style.position = "absolute"
-        divNova.style.top = (SVO.panHeight - SVO.markerHeight) / 2 + "px"
-        divNova.style.left = (SVO.panWidth - SVO.markerWidth) / 2 + "px"
+        divNova.style.top = (SVO.panHeight) / 2 - (SVO.markerHeight) / 1.9 + "px"
+        divNova.style.left = (SVO.panWidth) / 2 - (SVO.markerWidth) / 2.2 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
 
@@ -337,6 +338,7 @@ adcElementoC = function () {
                 divNova.style.fontSize = SVO.markerWidth + "px"
                 divNova.style.color = "red"
                 divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+        divNova.style.fontWeight = "bold"
 
 
                 divNova.sheading = Panorama.getPov().heading;
@@ -502,8 +504,8 @@ dragElement = function (elmnt) {
             var proj_y = Sz / Sy;
 
             // Idêntico ao m_updateMarker
-            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2;
-            var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
+            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.2;
+            var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 1.9;
 
             var dx = targetX - x;
             var dy = targetY - y;
@@ -527,11 +529,11 @@ dragElement = function (elmnt) {
                 if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
                     rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
                     rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText =
-                        '\n Altura: ' + parseFloat(slt[0]).toFixed(1) +
+                        '\n z: ' + parseFloat(slt[0]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[1]).toFixed(1) + ')' +
-                        '\n Afastamento: ' + parseFloat(slt[2]).toFixed(1) +
+                        '\n r: ' + parseFloat(slt[2]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[3]).toFixed(1) + ')' +
-                        ' \n Distância: ' + parseFloat(slt[4]).toFixed(1) +
+                        ' \n √(z²+r²): ' + parseFloat(slt[4]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[5]).toFixed(1) + ')';
                 }
             }
@@ -592,8 +594,8 @@ m_updateMarker = function (elmnt, l_pov) {
     var proj_x = Sx / Sy;
     var proj_y = Sz / Sy;
 
-    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2+1.25;
-    var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
+    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.2;
+    var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 1.9;
 
     elmnt.style.left = x + "px";
     elmnt.style.top = y + "px";

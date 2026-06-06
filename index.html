@@ -288,6 +288,25 @@
             margin-bottom: 15px;
         }
 
+        #whatwedo p a {
+            display: inline;
+            margin-top: 0;
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            color: var(--secondary-color);
+            font-weight: normal;
+            text-decoration: underline;
+        }
+
+        #whatwedo p a:hover {
+            background-color: transparent;
+            transform: none;
+            box-shadow: none;
+            color: var(--accent-color);
+        }
+
         #whatwedo a {
             display: inline-block;
             margin-top: 15px;
@@ -431,8 +450,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Bem-vindo</h1>                
-                    <p>Ferramenta de análise de Street View para mediçõeos remotas e calibração de imagens.</p>                    
-                    <p> Nos sistemas Android ou iOS é possível fazer medições sem calibração com medidas conhecidas ou de imagens/fotografias.</p>
+                    <p>Ferramenta de análise de Street View para medições remotas e calibração de imagens.</p>                    
+                    <p> Nos sistemas Android ou iOS a ferramenta fica limitada à medições sem calibração, com medidas conhecidas ou em imagens/fotografias.</p>
                     <p>O projeto está disponível em: <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool" target="_blank" rel="nofollow">GitHub - SPAI-ICCE-RJ</a></p>
                 </div>
             </div>
@@ -493,7 +512,7 @@
 
                         <div class="tutorial-step">
                             <strong>Passo 5: Baixar dados</strong>
-                            <p>Quando você trabalha com uma <strong>imagem carregada</strong> e usa <strong>"Calibrar imagem"</strong> para marcar pontos de calibração, esses pontos são registrados. Clique em <strong>"Baixar dados"</strong> para salvar um arquivo <code>dados.txt</code> com todas os seus pontos no mundo real. Este arquivo pode ser usado no script <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow"> Camera.py</a> para calibrar uma câmera e estimar a altura de um indivíiduo, cuja LR da evidência pode ser calculada por meio do scritp <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow">heightLR.py</a> .</p>
+                            <p>Quando você trabalha com uma <strong>imagem carregada</strong> e usa <strong>"Calibrar imagem"</strong> para marcar pontos de calibração, esses pontos são registrados. Clique em <strong>"Baixar dados"</strong> para salvar um arquivo <code>dados.txt</code> com todas os seus pontos no mundo real. Este arquivo pode ser usado no script <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow"> Camera.py</a> para calibrar uma câmera e estimar a altura de um indivíduo, cuja LR da evidência pode ser calculada por meio do script <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool/blob/main/Camera.py" target="_blank" rel="nofollow">heightLR.py</a> .</p>
                             <p><em>Nota: A régua é apenas para medir na tela - não salva pontos automaticamente. Os pontos são salvos quando você usa "Calibrar imagem" com uma imagem carregada.</em></p>
                         </div>
 
@@ -519,6 +538,8 @@
                 <div class="col-lg-12">
                     <h1>Verificação de excesso de velocidade com LLR</h1>
                     <p>A tabela abaixo auxilia no cálculo de velocidade, tanto pela projeção reversa com dados obtidos na ferramenta acima, quanto pelo método da razão cruzada.</p>
+                    <p>As incertezas e limites de errona projeção reversa são automaticamente calculadas de acordo com <a href="https://arcca.com/wp-content/uploads/2018/01/SAE-RESEARCH-PAPER-HARRINGTON-et-al.pdf" target="_blank" rel="nofollow">Harrington (2017)</a>, podendo ser substituídas por outros valores.</p>
+                    <p>Na razão cruzada as incertezas e limites de erro são definidas de acordo com <a href="https://revista.rbc.org.br/index.php/rbc/article/view/749/364" target="_blank" rel="nofollow">Mendonça (2022)</a>.</p>
                     <p>O cálculo de LR, mais especificamente do seu logarítmo, é feito traçando hipóteses de intervalos de excesso de velocidade dados pelo CTB.</p>
                     <a href="https://docs.google.com/spreadsheets/d/1n0Jfrt46ySZ7giKlwUJrvp73FgYi-JruADIqCohfmsc/edit?usp=sharing" target="_blank" rel="nofollow">Acessar Planilha de Cálculo</a>
             </div>

@@ -48,16 +48,6 @@ var astorPlace = {
     lng: -43.182550
 };
 
-// var astorPlace = {
-//    lat: -16.657285,
-//    lng: -49.240549,
-//};
-
-// rua
-//astorPlace = {
-//    lat: -22.447031,
-//    lng: -43.171537
-//};
 
 async function initMap() {
     // Set up the map
@@ -163,7 +153,7 @@ async function initMap() {
         disableDefaultUI: true,
         linksControl: false,
         panControl: false,
-        clickToGo: true,
+        clickToGo: false,
         enableCloseButton: true,
         imageDateControl: true,
         disableKeyboardShortcuts: true,
@@ -192,7 +182,7 @@ async function initMap() {
     pPanorama.setOptions({
         linksControl: false,
         panControl: false,
-        clickToGo: true,
+        clickToGo: false,
         disableDefaultUI: true,
         enableCloseButton: false,
         imageDateControl: true,
