@@ -349,8 +349,5 @@ html, body {
   }
 
 /* Desloca o elemento minha-cruz-guia1 em 1px horizontal e 1px vertical */
-#minha-cruz-guia1 {
-    transform: translate(-0.5px, -0.5px);
-    will-change: transform;
-}
+
 

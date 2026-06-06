@@ -151,7 +151,7 @@ async function initMap() {
     rPanorama = rMap.getStreetView();
     rPanorama.setOptions({
         disableDefaultUI: true,
-        linksControl: false,
+        linksControl: true,
         panControl: false,
         clickToGo: false,
         enableCloseButton: true,
@@ -180,7 +180,7 @@ async function initMap() {
 
     pPanorama = pMap.getStreetView()
     pPanorama.setOptions({
-        linksControl: false,
+        linksControl: true,
         panControl: false,
         clickToGo: false,
         disableDefaultUI: true,

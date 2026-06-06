@@ -2,7 +2,7 @@
 adcElemento = function () {
     var Panorama = rPanorama;
     var Name = []
-    const rul = ["--", "0 [cm]"]
+    const rul = [" z,r,√(z²+r²)", " 0 [cm]"]
 
     Name[0] = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
         Panorama.getPano() + "A"
@@ -13,7 +13,7 @@ adcElemento = function () {
 
         SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
         SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-        SVO.markerWidth = 18    ;
+        SVO.markerWidth = 18  ;
         SVO.markerHeight = SVO.markerWidth;
 
         if (Panorama.__gm.panes.overlayLayer.children[Name[0]] == undefined) {
@@ -27,11 +27,11 @@ adcElemento = function () {
         var divNova = document.createElement("i");
         divNova.id = Name[ii]
         divNova.style.position = "absolute"
-        divNova.style.top = SVO.panHeight/2 - SVO.markerHeight/1.9 +"px"
-        divNova.style.left = SVO.panWidth/2 - SVO.markerWidth/2.2  + "px"
+        divNova.style.top = SVO.panHeight/2 - SVO.markerHeight/2+"px"
+        divNova.style.left = SVO.panWidth/2 - SVO.markerWidth/2.3  + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
-        divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+        divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
         divNova.style.fontWeight = "bold"
 
         divNova.sheading = Panorama.getPov().heading;
@@ -89,7 +89,7 @@ adcElemento = function () {
         slt = solverH(rPanorama.__gm.panes.overlayLayer.children);
         for (ii = 0; ii < rPanorama.__gm.panes.overlayLayer.children.length / 2; ii++) {
             if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
+                rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = ' 0 [cm] ';
 
                 rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n z: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n r: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n √(z²+r²): ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
             }
@@ -107,8 +107,8 @@ adcElementoP = function () {
 
     SVO.panWidth = Object.values(rMap.__gm.pixelBounds)[2] - Object.values(rMap.__gm.pixelBounds)[0];
     SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
-    SVO.markerWidth = 15;
-    SVO.markerHeight = 15;
+    SVO.markerWidth = 18;
+    SVO.markerHeight = 18;
 
     if (!eid("centroR")) {
 
@@ -128,7 +128,7 @@ adcElementoP = function () {
     divNova.style.zIndex = "10";
     divNova.style.fontSize = Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight)) + "px"
     divNova.style.color = "red"
-    divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+    divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
     divNova.style.fontWeight = "bold"
 
     divNova.classList.add('fa', 'fa-dot-circle-o', 'marker')
@@ -175,12 +175,12 @@ adcElementoP = function () {
         var divNova = document.createElement("i");
         divNova.id = Name
         divNova.style.position = "absolute"
-        divNova.style.top = (SVO.panHeight) / 2 - (SVO.markerHeight) / 1.9 + "px"
-        divNova.style.left = (SVO.panWidth) / 2 - (SVO.markerWidth) / 2.2 + "px"
+        divNova.style.top = (SVO.panHeight) / 2 - (SVO.markerHeight) / 2 + "px"
+        divNova.style.left = (SVO.panWidth) / 2 - (SVO.markerWidth) / 2.3 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
 
-        divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
+        divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
 
         divNova.sheading = Panorama.getPov().heading;
         divNova.spitch = Panorama.getPov().pitch;
@@ -337,8 +337,8 @@ adcElementoC = function () {
                 divNova.style.left = ((SVO.panWidth - SVO.markerWidth) / 2 - 50 + jj * 100) + "px"
                 divNova.style.fontSize = SVO.markerWidth + "px"
                 divNova.style.color = "red"
-                divNova.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.8))";
-        divNova.style.fontWeight = "bold"
+                divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
+                divNova.style.fontWeight = "bold"
 
 
                 divNova.sheading = Panorama.getPov().heading;
@@ -504,8 +504,8 @@ dragElement = function (elmnt) {
             var proj_y = Sz / Sy;
 
             // Idêntico ao m_updateMarker
-            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.2;
-            var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 1.9;
+            var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.3;
+            var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
 
             var dx = targetX - x;
             var dy = targetY - y;
@@ -527,7 +527,7 @@ dragElement = function (elmnt) {
             slt = solverH(rPanorama.__gm.panes.overlayLayer.children);
             for (ii = 0; ii < rPanorama.__gm.panes.overlayLayer.children.length / 2; ii++) {
                 if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
-                    rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = '0 [cm] ';
+                    rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = ' 0 [cm] ';
                     rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText =
                         '\n z: ' + parseFloat(slt[0]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[1]).toFixed(1) + ')' +
@@ -594,8 +594,8 @@ m_updateMarker = function (elmnt, l_pov) {
     var proj_x = Sx / Sy;
     var proj_y = Sz / Sy;
 
-    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.2;
-    var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 1.9;
+    var x = l_midX + l_fovAngle * proj_x * l_midX - SVO.markerWidth / 2.3;
+    var y = l_midY - l_fovAngle * proj_y * l_midX - SVO.markerHeight / 2;
 
     elmnt.style.left = x + "px";
     elmnt.style.top = y + "px";
