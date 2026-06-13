@@ -235,8 +235,8 @@ function solverP() {
             pano = popupOriginal.document.getElementById("image-original").children[kk + 1].IDz.split("&");
 
             var loc = popupOriginal.document.getElementById("image-original").children[kk + 1].Point
-            var uu = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.left) + Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2
-            var vv = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.top) + Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2
+            var uu = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.left) + ( SVO.markerQWidth) / 2.4
+            var vv = parseInt(popupOriginal.document.getElementById("image-original").children[kk + 1].style.top) + ( SVO.markerQWidth) / 2.1
 
             if (rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)]) {
                 var sh1 = rPanorama.__gm.panes.overlayLayer.children[pano[0] + "P" + String(kk)].sheading;

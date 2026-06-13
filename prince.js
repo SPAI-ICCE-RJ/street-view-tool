@@ -34,7 +34,8 @@ var altern = 0;
 window._marcadoresPSelecionados = [];
 window._marcadoresPContagem = {};
 window._marcadoresPLinha = null;
-window._marcadoresPLinhasCount = 0; // Inicialize a variável global no início do seu script
+window._marcadoresPLinhasCount = 0;
+// Inicialize a variável global no início do seu script
 //let elevator
 
 let zoomUpdateTimeout = null;
@@ -48,7 +49,6 @@ var astorPlace = {
     lng: -43.182550
 };
 
-
 async function initMap() {
     // Set up the map
 
@@ -57,7 +57,6 @@ async function initMap() {
     const { encoding } = await google.maps.importLibrary("geometry");
 
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
 
     rMap = new Map(document.getElementById('rMap'), {
         center: astorPlace,
@@ -88,7 +87,6 @@ async function initMap() {
         },]
     });
     document.getElementById('rMap').style.width = '100%'
-
 
     //  const advancedMarker = new AdvancedMarkerElement({
     //map: rMap,
@@ -123,7 +121,6 @@ async function initMap() {
         },]
 
     });
-
 
     rMap.data.setStyle(function (feature) {
         if (feature.getProperty('radius') && feature.getGeometry().getType() === 'Point') {
@@ -200,7 +197,7 @@ async function initMap() {
     pPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('download-btn'));
     pPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('input-points'));
     pPanorama.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('file_input_container'));
-    pPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-point2'));
+    // pPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-point2'));
     // pPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('input-match'));
     pPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-rulerC'));
 
@@ -227,7 +224,8 @@ async function initMap() {
             } else {
                 setMapOnAll(null, CheckPoints);
             }
-        }, 50);
+        }
+            , 50);
     });
 
     pPanorama.addListener('visible_changed', function () {
@@ -239,7 +237,6 @@ async function initMap() {
             setMapOnAll(null, pCheckPoints)
         }
     });
-
 
     rPanorama.addListener("position_changed", function () {
         const self = this;
@@ -253,26 +250,24 @@ async function initMap() {
                     }, rPanoSetting);
                 }
             }
-        }, 1000);
+        }
+            , 1000);
     });
-
 
     pPanorama.addListener("position_changed", function () {
         const self = this;
         setTimeout(() => {
             if (this.streetViewDataProviders != rPanorama.streetViewDataProviders) {
                 this.setPano(rPanorama.links[plinks].pano);
-            }
-            else {
+            } else {
                 if (this.pano === rPanorama.pano) {
                     this.setPano(rPanorama.links[plinks].pano);
                     plinks = plinks + 1 > rPanorama.links.length - 1 ? 0 : plinks + 1;
                 }
             }
-        }, 1000);
+        }
+            , 1000);
     });
-
-
 
     /*  rMap.addListener('click', function (event) {
          var rPlace = event.latLng;
@@ -295,44 +290,89 @@ async function initMap() {
          }
      }); */
 
-    // Crea// the search box and link it to the UI element.
-    var input = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    rMap.controls[google.maps.ControlPosition.LEFT_TOP].push(input);
+    async function setupAutocomplete() {
+        const { Autocomplete } = await google.maps.importLibrary("places");
+        const input = document.getElementById('pac-input');
 
-    // Bias the SearchBox results towards current map's viewport.
-    rMap.addListener('bounds_changed', function () {
-        searchBox.setBounds(rMap.getBounds());
-    });
+        // Instancia o Autocomplete clássico no seu input comum
+        const autocomplete = new Autocomplete(input, {
+            fields: ["geometry", "name", "formatted_address"],
+        });
 
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function () {
-        var places = searchBox.getPlaces();
+        rMap.controls[google.maps.ControlPosition.LEFT_TOP].push(input);
 
-        if (places.length == 0) {
-            return;
+        // REGEX para validar se o texto digitado são coordenadas válidas (ex: -22.95, -43.21)
+        const regexCoordenadas = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
+
+        // Função interna para mover o mapa e abrir o Street View
+        function moverParaCoordenadas(lat, lng) {
+            const posicao = { lat: parseFloat(lat), lng: parseFloat(lng) };
+
+            rMap.setCenter(posicao);
+            rMap.setZoom(17);
+
+            sv.getPanorama({
+                location: posicao,
+                radius: 10,
+            }, rPanoSetting);
         }
 
-        // For each place, get the icon, name and location.
-        var bounds = new google.maps.LatLngBounds();
-        places.forEach(function (place) {
-            if (!place.geometry) {
-                console.log("Returned place contains no geometry");
+        // --- INTERCEPTOR DE COORDENADAS (O segredo) ---
+        // Escuta o Enter direto no input. Se for coordenada, cancela a busca do Google.
+        input.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                const textoDigitado = input.value || "";
+
+                if (regexCoordenadas.test(textoDigitado.trim())) {
+                    // Impede o Google de tentar buscar isso como um texto/lugar comum
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // Separa Lat e Lng e executa o teletransporte
+                    const [lat, lng] = textoDigitado.split(",");
+                    moverParaCoordenadas(lat.trim(), lng.trim());
+                } else {
+                     window.alert("Clique nas sugestões ou insira coordenadas no formato: lat, lng (ex: -22.95, -43.21).");
                 return;
-            }
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
+                }
+            } 
         });
-        setMapOnAll(null, CheckPoints);
-        CheckPoints = [];
-        rMap.fitBounds(bounds);
-        pMap.fitBounds(bounds);
-    });
+
+        // --- FLUXO NORMAL DO GOOGLE (Para nomes de lugares) ---
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            
+
+            if (place.geometry.viewport) {
+                rMap.fitBounds(place.geometry.viewport);
+
+                sv.getPanorama({
+                    location: {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+                    },
+                    radius: 10,
+                }, rPanoSetting);
+
+            } else {
+                rMap.setCenter(place.geometry.location);
+                rMap.setZoom(17);
+
+                sv.getPanorama({
+                    location: {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+                    },
+                    radius: 10,
+                }, rPanoSetting);
+            }
+
+            
+        });
+
+        
+    }
+    setupAutocomplete();
 
     State[0] = {
         heading: 0
@@ -398,7 +438,7 @@ function toggleDown() {
     }
     rPanorama.setPano(rPanoramas[ntimes].pano);
 
-    document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1,8)
+    document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 8)
     setMapOnAll(null, pCheckPoints)
     data = Data[CheckPano[markerPanoID]]
 
@@ -419,8 +459,9 @@ function toggleDown() {
                         setMapOnAll(pMap, pCheckPoints[CheckPano[pPano]])
                         pPanorama.setPano(pTime);
                         pPanorama.setVisible(true)
+                    } else {
+                        pPanorama.setVisible(false)
                     }
-                    else { pPanorama.setVisible(false) }
                 }
             }
         }
@@ -480,8 +521,9 @@ function toggleUp() {
                         setMapOnAll(pMap, pCheckPoints[CheckPano[pPano]])
                         pPanorama.setPano(pTime);
                         pPanorama.setVisible(true)
+                    } else {
+                        pPanorama.setVisible(false)
                     }
-                    else { pPanorama.setVisible(false) }
 
                 }
             }
@@ -561,8 +603,6 @@ function toggleUp() {
 //             // rPanoramas = data.time;
 //             //  ntimes = data.time.length - 1;
 //             Data.push(data)
-
-
 
 // /*             checkpoint.addListener('click', function () {
 //                 pTimes = []
@@ -750,11 +790,12 @@ function rPanoSetting(data, status) {
             rPanoramas = data.time;
             ntimes = data.time.length - 1;
         }
+        rPanorama.setVisible(true);
 
         if (Markers[rPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
             setMapOnAll(rMap, Markers[rPanorama.pano].Points);
         }
-        document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1,8)
+        document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 8)
 
         if (data.links.length != 0) {
             pPano = Object.values(data.links[0])[2]
@@ -763,8 +804,7 @@ function rPanoSetting(data, status) {
             }, pPanoSetting);
             pPanorama.setPano(pPano);
             pPanorama.setVisible(true)
-        }
-        else {
+        } else {
             pPanorama.setVisible(false);
         }
 
@@ -799,7 +839,6 @@ function pPanoSetting(data, status) {
         }
     }
 }
-
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
@@ -1019,7 +1058,8 @@ function handleFileSelect(evt) {
         // Aqui você recebe o conteúdo do TXT como string:
         var conteudo = e.target.result;
         LoadFile(txtParaObjeto(conteudo))
-    };
+    }
+        ;
     reader.readAsText(f);
 
 }
@@ -1057,9 +1097,7 @@ function LoadFile(pontos) {
             pitch: parseFloat(pontos[q][11])
         });
         //sleep(1000)
-        adcElementoP()
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.left = pontos[q][5] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2 + "px"
-        popupOriginal.document.getElementById("image-original").children[q + 1].style.top = pontos[q][6] - Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5 * SVO.markerHeight)) / 2 + "px"
+        adcElementoP(pontos[q][5], pontos[q][6])
 
     }
     rPanorama.setVisible(true)
@@ -1192,14 +1230,14 @@ function LocationElevation(location, elevator) {
 function alternate() {
 
     if (popupOriginal) {
-
     } else {
 
         for (let ii = altern; ii < rPanorama.__gm.panes.overlayLayer.children.length; ii++) {
-            if (rPanorama.getPano() != rPanorama.__gm.panes.overlayLayer.children[ii].pano &&
-                altern < rPanorama.__gm.panes.overlayLayer.children.length) {
+            if (rPanorama.getPano() != rPanorama.__gm.panes.overlayLayer.children[ii].pano && altern < rPanorama.__gm.panes.overlayLayer.children.length) {
                 rPanorama.setPano(rPanorama.__gm.panes.overlayLayer.children[altern].pano)
-            } else { altern = altern + 1 }
+            } else {
+                altern = altern + 1
+            }
             if (altern == rPanorama.__gm.panes.overlayLayer.children.length - 1) {
                 altern = 0
             }

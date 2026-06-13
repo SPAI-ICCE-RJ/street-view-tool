@@ -29,7 +29,7 @@
         <input type="submit" value="Voltar" onclick="toggleDown();">
     </div>
     <div id="floating-Up">
-        <input type="submit" value="Avançar data" onclick="toggleUp();">
+        <input type="submit" value="Avançar" onclick="toggleUp();">
     </div>
     <div id="input-pair">
         <input type="number" id="distance-value" placeholder="Distância (cm)" min="0" step="0.1" lang="en-US"
@@ -145,6 +145,39 @@
     `;
             popupOriginal.document.write(popupContent);
             popupOriginal.document.close();
+            if (popupOriginal && popupOriginal.document) {
+                var imagemMapeada = popupOriginal.document.querySelector('#image-original img');
+
+                if (imagemMapeada) {
+                    imagemMapeada.addEventListener('click', function (event) {
+
+                     
+                        // 1. Pega as coordenadas e o tamanho exato da imagem renderizada na tela
+                        var retangulo = imagemMapeada.getBoundingClientRect();
+
+                        // 2. Calcula a posição do clique RELATIVA ao topo-esquerdo da imagem na tela
+                        var cliqueX_naTela = event.clientX - retangulo.left;
+                        var cliqueY_naTela = event.clientY - retangulo.top;
+
+                        // 3. Pega o tamanho real/original do arquivo de imagem (ex: 4000x3000 pixels)
+                        var larguraOriginal = imagemMapeada.naturalWidth;
+                        var alturaOriginal = imagemMapeada.naturalHeight;
+
+                        // 4. MAPEAMENTO DE ALTA PRECISÃO:
+                        // Fazemos uma regra de três para descobrir o pixel exato na imagem original,
+                        // anulando completamente qualquer efeito de zoom, distorção ou margem do CSS.
+                        var posX_Exata = Math.round((cliqueX_naTela / retangulo.width) * larguraOriginal);
+                        var posY_Exata = Math.round((cliqueY_naTela / retangulo.height) * alturaOriginal);
+
+                        // Evita coordenadas negativas ou acima do limite da imagem caso clique na bordinha
+                        posX_Exata = Math.max(0, Math.min(posX_Exata, larguraOriginal));
+                        posY_Exata = Math.max(0, Math.min(posY_Exata, alturaOriginal));
+
+                        // Envia as coordenadas perfeitas para a sua função
+                        adcElementoP(posX_Exata, posY_Exata);
+                    });
+                }
+            }
 
         };
     </script>

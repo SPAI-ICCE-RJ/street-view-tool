@@ -350,4 +350,17 @@ html, body {
 
 /* Desloca o elemento minha-cruz-guia1 em 1px horizontal e 1px vertical */
 
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    /* Permite barras de rolagem se a imagem der zoom e estourar a tela */
+    overflow: auto; 
+}
 
+img.image-original {
+    /* Garante que o clique seja registrado no tamanho real atual da imagem */
+    display: block; 
+    transform-origin: top left; /* Ajuda a manter o controle do zoom a partir do topo esquerdo */
+}

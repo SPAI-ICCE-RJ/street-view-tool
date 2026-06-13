@@ -27,8 +27,8 @@ adcElemento = function () {
         var divNova = document.createElement("i");
         divNova.id = Name[ii]
         divNova.style.position = "absolute"
-        divNova.style.top = SVO.panHeight/2 - SVO.markerHeight/2+"px"
-        divNova.style.left = SVO.panWidth/2 - SVO.markerWidth/2.3  + "px"
+        divNova.style.top = SVO.panHeight/2 - SVO.markerHeight/2 +"px"
+        divNova.style.left = SVO.panWidth/2 - SVO.markerWidth/2.325 + "px"
         divNova.style.fontSize = SVO.markerWidth + "px"
         divNova.style.color = "red"
         divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
@@ -97,7 +97,9 @@ adcElemento = function () {
     }
 }
 
-adcElementoP = function () {
+
+
+adcElementoP = function (posX, posY) {
 
     var oPanorama = []
     numb = String(popupOriginal.document.all.length - 8)
@@ -109,11 +111,8 @@ adcElementoP = function () {
     SVO.panHeight = Object.values(rMap.__gm.pixelBounds)[3] - Object.values(rMap.__gm.pixelBounds)[1];
     SVO.markerWidth = 18;
     SVO.markerHeight = 18;
-
-    if (!eid("centroR")) {
-
-    }
-
+    SVO.markerQWidth=Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight))
+    
     NameQ = combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano())
 
     numbL = countElementsByIdPrefix(popupOriginal.document, NameQ);
@@ -123,10 +122,10 @@ adcElementoP = function () {
     divNova.IDz = NameQ
     divNova.IDs = numb;
     divNova.style.position = "absolute"
-    divNova.style.top = "50%"
-    divNova.style.left = "50%"
+    divNova.style.top = posY - SVO.markerQWidth / 2.1 + "px"
+    divNova.style.left = posX - SVO.markerQWidth / 2.4 + "px"
     divNova.style.zIndex = "10";
-    divNova.style.fontSize = Math.round(popupOriginal.document.getElementById("image-original").children.image.height / (5*SVO.markerHeight)) + "px"
+    divNova.style.fontSize = SVO.markerQWidth + "px"
     divNova.style.color = "red"
     divNova.style.filter = "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.8))";
     divNova.style.fontWeight = "bold"
@@ -721,3 +720,4 @@ function desenhaRetaEntreMarcadoresP(m1, m2) {
         window._marcadoresPLinhasCount++;
     }
 }
+
