@@ -345,7 +345,7 @@ html, body {
 
     pointer-events: none; 
 
-    
+    opacity: 0.4;
   }
 
 /* Desloca o elemento minha-cruz-guia1 em 1px horizontal e 1px vertical */
