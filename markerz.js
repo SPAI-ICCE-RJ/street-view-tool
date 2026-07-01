@@ -2,7 +2,7 @@
 adcElemento = function () {
     var Panorama = rPanorama;
     var Name = []
-    const rul = [" z,r,√(z²+r²)", " 0 [cm]"]
+    const rul = [" z,r,d", " 0 [cm]"]
 
     Name[0] = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 11) +
         Panorama.getPano() + "A"
@@ -91,7 +91,7 @@ adcElemento = function () {
             if (rPanorama.__gm.panes.overlayLayer.children[2 * ii].id.split("&").length == 1) {
                 rPanorama.__gm.panes.overlayLayer.children[2 * ii].innerText = ' 0 [cm] ';
 
-                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n z: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n r: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n √(z²+r²): ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
+                rPanorama.__gm.panes.overlayLayer.children[2 * ii + 1].innerText = '\n z: ' + String(parseFloat(slt[0]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[1]).toFixed(1)) + ')' + '\n r: ' + String(parseFloat(slt[2]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[3]).toFixed(1)) + ')' + ' \n d: ' + String(parseFloat(slt[4]).toFixed(1)) + ' (σ=' + String(parseFloat(slt[5]).toFixed(1)) + ')';
             }
         }
     }
@@ -269,7 +269,7 @@ adcElementoP = function (posX, posY) {
                         //  this.__gm.panes.overlayLayer.children[kk].style.display = this.getPano() ==
                         //    this.__gm.panes.overlayLayer.children[2 * kk] ? "block" : "none";
                     }
-                }, 50);
+                }, 1);
             });
 
         }
@@ -532,7 +532,7 @@ dragElement = function (elmnt) {
                         ' (σ=' + parseFloat(slt[1]).toFixed(1) + ')' +
                         '\n r: ' + parseFloat(slt[2]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[3]).toFixed(1) + ')' +
-                        ' \n √(z²+r²): ' + parseFloat(slt[4]).toFixed(1) +
+                        ' \n d: ' + parseFloat(slt[4]).toFixed(1) +
                         ' (σ=' + parseFloat(slt[5]).toFixed(1) + ')';
                 }
             }
