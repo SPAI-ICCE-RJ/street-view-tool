@@ -6,7 +6,7 @@ from scipy.optimize import root_scalar
 from scipy.optimize import minimize
 import os
 
-caso="ICCE"
+caso="ICCE2"
 
 dados="dados"
 
@@ -18,7 +18,7 @@ n_heights = 1
 n_out=0
 
 # Defina o valor do padding desejado 
-padding_x,padding_y = 100,100
+padding_x,padding_y = 200,200
 
 # Chute inicial para os coeficientes de distorção
 dist_coeffs0 = np.array([[0], [0],                 # k1, k2 
@@ -38,7 +38,7 @@ use_tilted_model      = False
 # -----------------------------------------------------------
 # 🔹 COEFICIENTES A FIXAR
 # -----------------------------------------------------------
-fix_p1_p2             = False
+fix_p1_p2             = True
 fix_k1                = False
 fix_k2                = False
 fix_k3                = False
@@ -110,7 +110,7 @@ current_win_height = 0
 # Input: valor desejado da PDF da t-Student
 y_target = 1e-5  # Exemplo: defina o valor que desejar
 
-n_values = np.arange(4, 50)  # n de 2 a 31
+n_values = np.arange(4, 100)  # n de 2 a 31
 k_values = []
 
 for n in n_values:

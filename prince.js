@@ -3,7 +3,7 @@ var pPanorama;
 var meusPontos;
 var indice;
 var dados = [];
-var act;
+var atualP = 0;
 var Data = [];
 var DatA = [];
 var CheckPoints = [];
@@ -212,46 +212,46 @@ async function initMap() {
     pPanorama.setVisible(true)
     pPanorama.setVisible(false)
 
-    rPanorama.addListener('visible_changed', function () {
-        const self = this;
+    // rPanorama.addListener('visible_changed', function () {
+    //     const self = this;
 
-        setTimeout(() => {
-            if (!this.getVisible()) {
-                setMapOnAll(rMap, CheckPoints);
-                document.getElementById('rMap').style.width = '100%'
-                document.getElementById('pMap').style.display = 'none'
+    //     setTimeout(() => {
+    //         if (!this.getVisible()) {
+    //             document.getElementById('rMap').style.width = '100%'
+    //             document.getElementById('pMap').style.display = 'none'
 
-            } else {
-                setMapOnAll(null, CheckPoints);
-            }
-        }
-            , 50);
-    });
+    //         } else {
+    //             setMapOnAll(null, CheckPoints);
+    //         }
+    //     }
+    //         , 50);
+    // });
 
-    pPanorama.addListener('visible_changed', function () {
-        if (!pPanorama.getVisible()) {
-            for (ii = 0; ii < pTimes.length; ii++) {
-                setMapOnAll(pMap, pCheckPoints[CheckPano[pTimes[ii]]])
-            }
-        } else {
-            setMapOnAll(null, pCheckPoints)
-        }
-    });
+    // pPanorama.addListener('visible_changed', function () {
+    //     if (!pPanorama.getVisible()) {
+    //         for (ii = 0; ii < pTimes.length; ii++) {
+    //             setMapOnAll(pMap, pCheckPoints[CheckPano[pTimes[ii]]])
+    //         }
+    //     } else {
+    //         setMapOnAll(null, pCheckPoints)
+    //     }
+    // });
 
-    rPanorama.addListener("position_changed", function () {
+    rPanorama.addListener("pano_changed", function () {
         const self = this;
         setTimeout(() => {
             if (this.location) {
 
                 if (markerPanoID != this.getPano()) {
                     markerPanoID = this.getPano()
+
                     sv.getPanorama({
                         pano: this.getPano()
                     }, rPanoSetting);
                 }
             }
         }
-            , 1000);
+            , 50);
     });
 
     pPanorama.addListener("position_changed", function () {
@@ -332,16 +332,16 @@ async function initMap() {
                     const [lat, lng] = textoDigitado.split(",");
                     moverParaCoordenadas(lat.trim(), lng.trim());
                 } else {
-                     window.alert("Clique nas sugestões ou insira coordenadas no formato: lat, lng (ex: -22.95, -43.21).");
-                return;
+                    window.alert("Clique nas sugestões ou insira coordenadas no formato: lat, lng (ex: -22.95, -43.21).");
+                    return;
                 }
-            } 
+            }
         });
 
         // --- FLUXO NORMAL DO GOOGLE (Para nomes de lugares) ---
         autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
-            
+
 
             if (place.geometry.viewport) {
                 rMap.fitBounds(place.geometry.viewport);
@@ -367,10 +367,10 @@ async function initMap() {
                 }, rPanoSetting);
             }
 
-            
+
         });
 
-        
+
     }
     setupAutocomplete();
 
@@ -417,19 +417,7 @@ function setMapOnAll(map, Markers) {
 
 function toggleDown() {
 
-    if (Markers[rPanorama.pano]) {
-        setMapOnAll(null, Markers[rPanorama.pano].Points);
-        setMapOnAll(null, Markers[rPanorama.pano].Matches);
-    }
-
-    if (Markers[pPanorama.pano]) {
-        setMapOnAll(null, Markers[pPanorama.pano].Points);
-        setMapOnAll(null, Markers[pPanorama.pano].Matches);
-    }
-
-    if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-        setMapOnAll(null, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-    }
+    
 
     if (ntimes == 0) {
         ntimes = rPanoramas.length - 1
@@ -456,7 +444,6 @@ function toggleDown() {
                         pntimes = jj;
                         pPanoramas = tdata.time
 
-                        setMapOnAll(pMap, pCheckPoints[CheckPano[pPano]])
                         pPanorama.setPano(pTime);
                         pPanorama.setVisible(true)
                     } else {
@@ -466,33 +453,13 @@ function toggleDown() {
             }
         }
     }
-    if (Markers[rPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
-        setMapOnAll(rMap, Markers[rPanorama.pano].Points);
-    }
 
-    if (Markers[pPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
-        setMapOnAll(pMap, Markers[pPanorama.pano].Points);
-    }
-
-    if (Markers[Object.values(rPanoramas[ntimes])[1]] && document.getElementById('rMap').style.width == '100%') {
-        setMapOnAll(rMap, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-    }
 
 }
 
 function toggleUp() {
 
-    if (Markers[rPanorama.pano]) {
-        setMapOnAll(null, Markers[rPanorama.pano].Points);
-    }
-
-    if (Markers[pPanorama.pano]) {
-        setMapOnAll(null, Markers[pPanorama.pano].Points);
-    }
-
-    if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-        setMapOnAll(null, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-    }
+ 
 
     if (ntimes == rPanoramas.length - 1) {
         ntimes = 0
@@ -530,17 +497,6 @@ function toggleUp() {
         }
     }
 
-    if (Markers[rPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
-        setMapOnAll(rMap, Markers[rPanorama.pano].Points);
-    }
-
-    if (Markers[pPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
-        setMapOnAll(pMap, Markers[pPanorama.pano].Points);
-    }
-
-    if (Markers[Object.values(rPanoramas[ntimes])[1]] && document.getElementById('rMap').style.width == '100%') {
-        setMapOnAll(rMap, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-    }
 
 }
 
@@ -753,51 +709,46 @@ function toggleUp() {
 function rPanoSetting(data, status) {
     if (status === 'OK') {
         pTimes = []
-        markerPanoID = data.location.pano;
+        // ntimes = rPanoramas.findIndex(item => item.pano === panoProcurado);
         DatA = data
-        if (ntimes.length != 0) {
-            Pano = Object.values(rPanoramas[ntimes])[1];
-            var aTime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]);
-            var stime = [];
-            for (ii = 0; ii < data.time.length; ii++) {
-                var sTime = JSON.stringify(Object.values(data.time[ii])[1])
-                if (sTime === aTime) {
-                    ntimes = ii;
-                    stime = 1;
-                }
-            }
-            if (stime == 1) {
-                rPanoramas = data.time
-                rPanorama.setPano(Object.values(rPanoramas[ntimes])[0])
-            } else {
-                if (Markers[Object.values(rPanoramas[ntimes])[1]] && document.getElementById('rMap').style.width == '100%') {
-                    if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-                        setMapOnAll(null, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
+        if (altern == 0) {
+            markerPanoID = data.location.pano;
+            if (ntimes.length != 0) {
+                Pano = Object.values(rPanoramas[ntimes])[1];
+                var aTime = JSON.stringify(Object.values(rPanoramas[ntimes])[1]);
+                var stime = [];
+                for (ii = 0; ii < data.time.length; ii++) {
+                    var sTime = JSON.stringify(Object.values(data.time[ii])[1])
+                    if (sTime === aTime) {
+                        ntimes = ii;
+                        stime = 1;
                     }
                 }
-
+                if (stime == 1) {
+                    rPanoramas = data.time
+                    rPanorama.setPano(Object.values(rPanoramas[ntimes])[0])
+                } else {
+                    rPanorama.setPano(markerPanoID);
+                    rPanoramas = data.time;
+                    ntimes = data.time.length - 1;
+                }
+            } else {
                 rPanorama.setPano(markerPanoID);
                 rPanoramas = data.time;
                 ntimes = data.time.length - 1;
-                if (Markers[Object.values(rPanoramas[ntimes])[1]] && document.getElementById('rMap').style.width == '100%') {
-                    if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-                        setMapOnAll(rMap, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-                    }
-                }
             }
         } else {
-            rPanorama.setPano(markerPanoID);
             rPanoramas = data.time;
-            ntimes = data.time.length - 1;
+            ntimes = rPanoramas.findIndex(item => item.pano === markerPanoID);
+            if (ntimes == -1) {
+                ntimes = rPanoramas.length - 1;
+            }
+            
         }
-        rPanorama.setVisible(true);
 
-        if (Markers[rPanorama.pano] && document.getElementById('rMap').style.width == '50%') {
-            setMapOnAll(rMap, Markers[rPanorama.pano].Points);
-        }
         document.getElementsByName('Date')[0].value = JSON.stringify(Object.values(rPanoramas[ntimes])[1]).substring(1, 8)
 
-        if (data.links.length != 0) {
+        if (data.links.length != 0 && altern == 0) {
             pPano = Object.values(data.links[0])[2]
             sv.getPanorama({
                 pano: pPano
@@ -805,9 +756,11 @@ function rPanoSetting(data, status) {
             pPanorama.setPano(pPano);
             pPanorama.setVisible(true)
         } else {
+            if (altern==0){
             pPanorama.setVisible(false);
         }
-
+        }
+        altern = 0
     }
 }
 
@@ -829,13 +782,11 @@ function pPanoSetting(data, status) {
             if (stime == 1) {
                 pPanorama.setPano(Object.values(pPanoramas[pntimes])[0])
                 pPanorama.setVisible(true);
-                setMapOnAll(null, pCheckPoints)
             }
         } else {
             pPanorama.setPano(data.location.pano);
             pntimes = data.time.length - 1;
             rPanorama.setVisible(true);
-            setMapOnAll(null, CheckPoints)
         }
     }
 }
@@ -854,18 +805,6 @@ function duplicate(s) {
         if (document.getElementById('rMap').style.width == '50%') {
             document.getElementById('rMap').style.width = '100%'
 
-            if (Markers[rPanorama.pano]) {
-                setMapOnAll(null, Markers[rPanorama.pano].Points);
-                setMapOnAll(null, Markers[pPanorama.pano].Points);
-                if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-                    setMapOnAll(rMap, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-                }
-
-            }
-
-            if (Markers[pPanorama.pano]) {
-                setMapOnAll(null, Markers[pPanorama.pano].Points);
-            }
 
             rPanorama.setVisible(false)
             rPanorama.setVisible(true)
@@ -881,17 +820,7 @@ function duplicate(s) {
             rPanorama.setVisible(false)
             pPanorama.setVisible(false)
 
-            if (Markers[rPanorama.pano]) {
-                setMapOnAll(rMap, Markers[rPanorama.pano].Points);
-            }
-
-            if (Markers[pPanorama.pano]) {
-                setMapOnAll(pMap, Markers[pPanorama.pano].Points);
-            }
-
-            if (Markers[Object.values(rPanoramas[ntimes])[1]]) {
-                setMapOnAll(null, Markers[Object.values(rPanoramas[ntimes])[1]].Pairs);
-            }
+         
 
             document.getElementById('pMap').style.display = 'block'
 
@@ -908,18 +837,7 @@ function duplicate(s) {
 
             document.getElementById('pMap').style.width = '100%'
 
-            if (Markers[pPanorama.pano]) {
-                setMapOnAll(null, Markers[pPanorama.pano].Points);
-            }
-
-            if (Markers[rPanorama.pano]) {
-                setMapOnAll(null, Markers[rPanorama.pano].Points);
-
-            }
-
-            if (Markers.length > 0) {
-                setMapOnAll(pMap, Markers[Object.values(pPanoramas[ntimes])[1]].Pairs);
-            }
+        
 
             pPanorama.setVisible(false)
             pPanorama.setVisible(true)
@@ -933,18 +851,7 @@ function duplicate(s) {
             rPanorama.setVisible(false)
             pPanorama.setVisible(false)
 
-            if (Markers[pPanorama.pano]) {
-                setMapOnAll(null, Markers[pPanorama.pano].Points);
-            }
-
-            if (Markers[rPanorama.pano]) {
-                setMapOnAll(null, Markers[rPanorama.pano].Points);
-            }
-
-            if (Markers.length > 0) {
-                setMapOnAll(null, Markers[Object.values(pPanoramas[ntimes])[1]].Pairs);
-            }
-
+         
             document.getElementById('rMap').style.display = 'block'
             pPanorama.setVisible(false)
             pPanorama.setVisible(true)
@@ -1228,19 +1135,77 @@ function LocationElevation(location, elevator) {
 }
 
 function alternate() {
-
     if (popupOriginal) {
+        const combinacoes = [];
+        const vistas = new Set();
+        altern = 1
+        for (const elemento of popupOriginal.document.all) {
+            const id = elemento.id;
+            const match = id?.match(/^(.+&.+)Q\d+$/);
+
+            if (!match) {
+                continue;
+            }
+
+            const [pano1, pano2] = match[1].split("&");
+            if (!pano1 || !pano2 || vistas.has(match[1])) {
+                continue;
+            }
+
+            vistas.add(match[1]);
+            combinacoes.push([pano1, pano2]);
+        }
+
+        if (combinacoes.length === 0) {
+            return;
+        }
+
+        const atual = combinacoes.findIndex(
+            ([pano1, pano2]) =>
+                combineStringsCommutative(rPanorama.getPano(), pPanorama.getPano()) ===
+                `${pano1}&${pano2}`
+        );
+
+        const proximo = atual >= 0
+            ? (atual + 1) % combinacoes.length
+            : atualP % combinacoes.length;
+
+        atualP = (proximo + 1) % combinacoes.length;
+
+        const [pano1, pano2] = combinacoes[proximo];
+        rPanorama.setPano(pano1);
+        pPanorama.setPano(pano2);
+        pPanorama.setVisible(true);
+        return;
     } else {
 
-        for (let ii = altern; ii < rPanorama.__gm.panes.overlayLayer.children.length; ii++) {
-            if (rPanorama.getPano() != rPanorama.__gm.panes.overlayLayer.children[ii].pano && altern < rPanorama.__gm.panes.overlayLayer.children.length) {
-                rPanorama.setPano(rPanorama.__gm.panes.overlayLayer.children[altern].pano)
-            } else {
-                altern = altern + 1
-            }
-            if (altern == rPanorama.__gm.panes.overlayLayer.children.length - 1) {
-                altern = 0
+        const panoramas = rPanorama.__gm?.panes?.overlayLayer?.children;
+
+        if (!panoramas?.length) {
+            return;
+        }
+
+        for (let i = 0; i < panoramas.length; i++) {
+            const panorama = panoramas[atualP];
+            atualP = (atualP + 1) % panoramas.length;
+            const panorama2 = panoramas[atualP];
+            const panoId = panorama?.pano;
+
+            if (panoId && panoId !== rPanorama.getPano()) {
+                altern = 1;
+                markerPanoID = panoId;
+                rPanorama.setPano(panoId);
+                rPanorama.setPov({
+                    heading: (panorama.sheading + panorama2.sheading) / 2,
+                    pitch: (panorama.spitch + panorama2.spitch) / 2,
+                    zoom: 0.8
+                });
+                sv.getPanoramaById(panoId, rPanoSetting);
+                return; 
             }
         }
+
     }
 }
+
+

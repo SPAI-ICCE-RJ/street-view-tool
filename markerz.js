@@ -467,7 +467,7 @@ dragElement = function (elmnt) {
         var l_pov = (SVO.panWidth > e.clientX) ? rPanorama.getPov() : pPanorama.getPov();
         var l_zoom = l_pov.zoom;
 
-        var l_fovAngle = l_zoom === 0 ? 0.475 : Math.pow(2, l_zoom - 1);
+        var l_fovAngle = l_zoom === 0 ? Math.pow(2, 0.0000001-1) : Math.pow(2, l_zoom - 1);
 
         var l_midX = SVO.panWidth / 2;
         var l_midY = SVO.panHeight / 2;
@@ -562,7 +562,7 @@ m_updateMarker = function (elmnt, l_pov) {
 
     var l_zoom = l_pov.zoom;
 
-    var l_fovAngle = l_zoom === 0 ? 0.475 : Math.pow(2, l_zoom - 1);
+    var l_fovAngle = l_zoom === 0 ? Math.pow(2,0.0000001-1) : Math.pow(2, l_zoom - 1);
 
     var l_midX = SVO.panWidth / 2;
     var l_midY = SVO.panHeight / 2;
