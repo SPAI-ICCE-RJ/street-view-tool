@@ -165,8 +165,8 @@ async function initMap() {
     rPanorama.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('floating-alternate'))
     rPanorama.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('floating-Date'))
     rPanorama.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('file_txt_container'));
-    rPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-ruler2'));
-    rPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-twoScreens1'));
+    rPanorama.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('floating-twoScreens1'));
+    rPanorama.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('floating-ruler2'));
 
     // 2. Cria o elemento HTML da cruz guia
 
