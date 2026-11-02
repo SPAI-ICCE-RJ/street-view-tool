@@ -431,10 +431,10 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#page-top">Bem-vindo</a>
+                        <a class="page-scroll" href="#about">Street View Tool</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#speed">Verificação de excesso de velocidade</a>
+                        <a class="page-scroll" href="#whatwedo">Verificação de excesso de Velocidade</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contato</a>
@@ -450,15 +450,29 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Bem-vindo</h1>                
-                    <p>Ferramenta de análise no Street View (<a href="https://github.com/SPAI-ICCE-RJ/street-view-tool" target="_blank" rel="nofollow">GitHub - SPAI-ICCE-RJ</a>) para medições remotas e calibração de imagens.</p>                    
-                    <p> Nos sistemas Android ou iOS a ferramenta fica limitada à medições sem calibração com medidas conhecidas</p>
-                    <p>Para acessar insira sua <a href="https://developers.google.com/maps/premium/apikey/street-view-static-apikey?hl=pt-br" target="_blank" rel="nofollow">chave da API Google Maps e ative os serviços Maps JavaScript API e Places API (new).</a> </p>       
+                    <p>Ferramenta de análise no Street View para medições remotas e calibração de imagens.</p>                    
+                    <p> Nos sistemas Android ou iOS a ferramenta fica limitada à medições sem calibração com medidas conhecidas.</p>
+                    <p>O projeto está disponível em: <a href="https://github.com/SPAI-ICCE-RJ/street-view-tool" target="_blank" rel="nofollow">GitHub - SPAI-ICCE-RJ</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Street View Tool</h1>
+                    <p>Insira sua <a href="https://developers.google.com/maps/premium/apikey/street-view-static-apikey?hl=pt-br" target="_blank" rel="nofollow">chave da API Google Maps e ative os serviços Maps JavaScript API e Places API (new).</a> Caso não insira uma chave própria, o acesso será limitado pela chave do autor.</p>
+            
                     <input type="text" id="txt" placeholder="Cole sua chave da API ou deixe em branco para usar a padrão">
+                    
                     <form action="Street.html" method="get">
                      <input type="submit" value="Entrar na Ferramenta" onclick="passvalues();"/>
                      </form>
-                    <p>Caso não insira uma chave própria, o acesso será limitado pela chave do autor.</p>
-                    <input type="button" id="tutorial-btn" class="tutorial-btn" value="Tutorial para usoo da ferramenta" onclick="toggleTutorial();">
+
+                    <input type="button" id="tutorial-btn" class="tutorial-btn" value="Ver Tutorial sobre a ferramenta" onclick="toggleTutorial();">
                     
                     <!-- Tutorial Content -->
                     <div id="tutorial-content" class="tutorial-section">
@@ -512,16 +526,13 @@
                         </div>
                     </div>
                     <!-- Fim Tutorial -->        
-                
                 </div>
             </div>
         </div>
     </section>
 
-  
-
     <!-- What we do Section -->
-    <section id="speed" class="whatwedo-section">
+    <section id="whatwedo" class="whatwedo-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
