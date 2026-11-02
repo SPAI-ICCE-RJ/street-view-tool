@@ -315,6 +315,7 @@ async function initMap() {
                 location: posicao,
                 radius: 10,
             }, rPanoSetting);
+            rPanorama.setVisible(true);
         }
 
         // --- INTERCEPTOR DE COORDENADAS (O segredo) ---
@@ -353,7 +354,7 @@ async function initMap() {
                     },
                     radius: 10,
                 }, rPanoSetting);
-
+                rPanorama.setVisible(true);
             } else {
                 rMap.setCenter(place.geometry.location);
                 rMap.setZoom(17);
@@ -365,9 +366,8 @@ async function initMap() {
                     },
                     radius: 10,
                 }, rPanoSetting);
+                rPanorama.setVisible(true);
             }
-
-
         });
 
 
