@@ -241,17 +241,14 @@ async function initMap() {
         const self = this;
         setTimeout(() => {
             if (this.location) {
-
                 if (markerPanoID != this.getPano()) {
                     markerPanoID = this.getPano()
-
                     sv.getPanorama({
                         pano: this.getPano()
                     }, rPanoSetting);
                 }
             }
-        }
-            , 50);
+        }, 50);
     });
 
     pPanorama.addListener("position_changed", function () {
@@ -265,8 +262,7 @@ async function initMap() {
                     plinks = plinks + 1 > rPanorama.links.length - 1 ? 0 : plinks + 1;
                 }
             }
-        }
-            , 1000);
+        }, 100);
     });
 
     /*  rMap.addListener('click', function (event) {
@@ -313,7 +309,7 @@ async function initMap() {
 
             sv.getPanorama({
                 location: posicao,
-                radius: 10,
+                radius: 20,
             }, rPanoSetting);
         }
 
@@ -351,7 +347,7 @@ async function initMap() {
                         lat: place.geometry.location.lat(),
                         lng: place.geometry.location.lng()
                     },
-                    radius: 10,
+                    radius: 20,
                 }, rPanoSetting);
 
             } else {
@@ -363,7 +359,7 @@ async function initMap() {
                         lat: place.geometry.location.lat(),
                         lng: place.geometry.location.lng()
                     },
-                    radius: 10,
+                    radius: 20,
                 }, rPanoSetting);
             }
 
@@ -737,12 +733,16 @@ function rPanoSetting(data, status) {
                 rPanoramas = data.time;
                 ntimes = data.time.length - 1;
             }
+                rPanorama.setVisible(true)
+
         } else {
             rPanoramas = data.time;
             ntimes = rPanoramas.findIndex(item => item.pano === markerPanoID);
             if (ntimes == -1) {
                 ntimes = rPanoramas.length - 1;
             }
+        rPanorama.setVisible(true)
+
             
         }
 
